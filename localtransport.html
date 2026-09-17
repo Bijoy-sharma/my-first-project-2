@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local Connectivity | Pocket Tour</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    color:white;
+    background:
+    linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    min-height:100vh;
+}
+
+.section{
+    padding:100px 5%;
+    max-width:1400px;
+    margin:0 auto;
+    text-align:center;
+}
+
+h1{
+    font-size:3.2rem;
+    font-weight:700;
+    margin-bottom:15px;
+    background:linear-gradient(45deg,#38bdf8,#60a5fa);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+
+.subtitle{
+    font-size:1.2rem;
+    opacity:0.9;
+    margin-bottom:50px;
+    font-weight:300;
+}
+
+/* FILTER BAR */
+.filter-container{
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    padding:25px;
+    margin-bottom:50px;
+    border:1px solid rgba(255,255,255,0.2);
+}
+
+.filter-box{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.filter-group{
+    position:relative;
+}
+
+select{
+    padding:15px 20px 15px 45px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.3);
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+    color:white;
+    font-size:1rem;
+    min-width:160px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+select:focus{
+    outline:none;
+    border-color:#38bdf8;
+    box-shadow:0 0 20px rgba(56,189,248,0.3);
+}
+
+select option{
+    background:white;
+    color:black;
+}
+
+.filter-icon{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#38bdf8;
+    font-size:1.1rem;
+}
+
+.search-btn{
+    padding:15px 30px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(45deg,#38bdf8,#3b82f6);
+    color:white;
+    font-size:1rem;
+    font-weight:500;
+    cursor:pointer;
+    transition:0.3s;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.search-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(56,189,248,0.4);
+}
+
+/* RESULTS INFO */
+.results-info{
+    margin-bottom:30px;
+    font-size:1rem;
+    opacity:0.9;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    padding:25px;
+    transition:all 0.4s ease;
+    border:1px solid rgba(255,255,255,0.15);
+    position:relative;
+    overflow:hidden;
+}
+
+.card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:linear-gradient(90deg,#38bdf8,#3b82f6);
+    transform:scaleX(0);
+    transition:transform 0.3s ease;
+}
+
+.card:hover::before{
+    transform:scaleX(1);
+}
+
+.card:hover{
+    transform:translateY(-15px);
+    box-shadow:0 25px 50px rgba(0,0,0,0.3);
+    background:rgba(255,255,255,0.18);
+}
+
+/* PROFILE */
+.profile-img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid rgba(255,255,255,0.3);
+    margin-bottom:15px;
+    transition:0.3s;
+}
+
+.card:hover .profile-img{
+    border-color:#38bdf8;
+    transform:scale(1.05);
+}
+
+/* CONTENT */
+.card h3{
+    font-size:1.3rem;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.vehicle-tag{
+    display:inline-block;
+    padding:6px 15px;
+    background:rgba(56,189,248,0.2);
+    border-radius:20px;
+    font-size:0.85rem;
+    font-weight:500;
+    margin-bottom:15px;
+    border:1px solid rgba(56,189,248,0.3);
+}
+
+.details{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.detail-item{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:0.9rem;
+    opacity:0.9;
+}
+
+.location-badge{
+    background:rgba(34,197,94,0.2);
+    color:#22c55e;
+    padding:4px 12px;
+    border-radius:15px;
+    font-size:0.8rem;
+    font-weight:500;
+    margin-top:10px;
+}
+
+/* BUTTONS */
+.btn-group{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.btn{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:15px;
+    font-weight:500;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:0.9rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+}
+
+.btn-primary{
+    background:linear-gradient(45deg,#38bdf8,#3b82f6);
+    color:white;
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(56,189,248,0.4);
+}
+
+.btn-secondary{
+    background:rgba(255,255,255,0.15);
+    color:white;
+    border:1px solid rgba(255,255,255,0.3);
+}
+
+.btn-secondary:hover{
+    background:rgba(255,255,255,0.25);
+}
+
+/* RESPONSIVE */
+@media (max-width:768px){
+    .section{padding:80px 5%;}
+    h1{font-size:2.5rem;}
+    .filter-box{flex-direction:column;}
+    select{min-width:100%;}
+    .grid{grid-template-columns:1fr; gap:20px;}
+    .details{justify-content:center;}
+}
+
+@media (max-width:480px){
+    h1{font-size:2rem;}
+    .filter-container{padding:20px 15px;}
+}
+
+.available-tag{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#22c55e;
+    color:white;
+    padding:5px 10px;
+    border-radius:15px;
+    font-size:0.7rem;
+    font-weight:500;
+}
+
+
+
+/* NAVBAR CONTAINER */
+.navbar{
+position: fixed;
+top:0;
+width:100%;
+z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 8%;
+
+background: rgba(15, 23, 42, 0.7);
+backdrop-filter: blur(12px);
+
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+.logo{
+font-size:1.5rem;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.nav-menu a{
+text-decoration:none;
+color:white;
+font-size:0.9rem;
+position:relative;
+transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#38bdf8;
+transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+position:absolute;
+top:35px;
+left:0;
+
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(10px);
+
+border-radius:10px;
+padding:10px 0;
+
+display:none;
+flex-direction:column;
+min-width:150px;
+}
+
+.dropdown-content a{
+padding:10px 15px;
+display:block;
+}
+
+.dropdown-content a:hover{
+background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+/* LOGIN */
+.nav-right a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+/* SIGNUP BUTTON */
+.btn-signup{
+padding:8px 18px;
+border-radius:20px;
+background:#38bdf8;
+color:white !important;
+transition:0.3s;
+}
+
+.btn-signup:hover{
+background:#0ea5e9;
+transform:scale(1.05);
+}
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.nav-menu{
+display:none;
+}
+
+.navbar{
+padding:15px 5%;
+}
+
+}
+
+
+
+
+
+</style>
+</head>
+
+<body>
+
+
+
+<header class="navbar">
+
+<div class="logo">POCKET<span>TOUR</span></div>
+
+<nav class="nav-menu">
+<a href="HOME1.html">Home</a>
+<a href="destination.html">Destinations</a>
+<a href="Package.html">Packages</a>
+<a href="Contact.html">Contact</a>
+<a href="whyus.html">Why Us?</a>
+
+<div class="dropdown">
+<a href="#">Services ▾</a>
+<div class="dropdown-content">
+<a href="explore.html">Explore</a>
+<a href="localtransport.html">Transport</a>
+<a href="travelsuggestion.html">Suggestion</a>
+</div>
+</div>
+<a href="admin1.html" class="admin-btn">Driver / Guide</a>
+</nav>
+
+<div class="nav-right">
+<a href="login06.html">Log In</a>
+<a href="signup.html" class="btn-signup">Sign Up</a>
+</div>
+<div class="nav-right" id="userArea">
+                
+    <!-- Dynamic content will come here -->
+</div>
+
+
+</header>
+
+
+<section class="section">
+    <h1><i class="fas fa-route"></i> Local Transport & Guides</h1>
+    <p class="subtitle">Connect with trusted local drivers, bike riders, boat services & expert guides</p>
+
+    <!-- FILTER -->
+    <div class="filter-container">
+        <div class="filter-box">
+            <div class="filter-group">
+                <i class="fas fa-map-marker-alt filter-icon"></i>
+                <select id="location">
+                    <option value="all">All Locations</option>
+                    <option value="sajek">Sajek Valley</option>
+                    <option value="cox">Cox's Bazar</option>
+                    <option value="sylhet">Sylhet</option>
+                    <option value="khulna">Khulna</option>
+                    <option value="chattogram">Chattogram</option>
+                    <option value="khagrachari">Khagrachari</option>
+                    <option value="dhaka">Dhaka</option>
+              <option value="kuakata">Kuakata</option>
+<option value="sundarban">Sundarban</option>
+                    <option value="rajshahi">Rajshahi</option>
+                    <option value="bandarban">Bandarban</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <i class="fas fa-car filter-icon"></i>
+                <select id="type">
+                    <option value="all">All Services</option>
+                    <option value="cng">CNG Auto</option>
+                    <option value="car">Car/Taxi</option>
+                    <option value="bike">Bike Rider</option>
+                    <option value="boat">Boat Service</option>
+                    <option value="guide">Tour Guide</option>
+                </select>
+            </div>
+            
+            <button class="search-btn" onclick="filterData()">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-info" id="resultsInfo">Showing <span id="count">0</span> trusted local services</div>
+
+    <!-- CARDS -->
+    <div class="grid" id="cards"></div>
+</section>
+
+<script>
+let data = [
+    {
+        name:"Rahim Khan",
+        email:"rahim12@gmail.com",
+        type:"cng",
+        location:"cox",
+        vehicle:"CNG Auto",
+        phone:"01712345678",
+        rating:4.8,
+        available:true,
+        img:"https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      map:"https://www.google.com/maps?q=Coxsbazar"
+
+      
+    },
+
+    {
+        name:"Karim Bike Pro",
+         email:"Karimbike69@gmail.com",
+        type:"bike",
+        location:"sajek",
+        vehicle:"Royal Enfield",
+        phone:"01823456789",
+        rating:4.9,
+        available:true,
+        img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+       map:"https://www.google.com/maps?q=Sajek"
+    },
+    {
+        name:"Hasan Tour Guide",
+         email:"hasanguide69@gmail.com",
+        type:"guide",
+        location:"bandarban",
+        vehicle:"Local Expert",
+        phone:"01934567890",
+        rating:5.0,
+        available:true,
+        img:"https://images.unsplash.com/photo-1521335629791-ce4aec67dd53?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        map:"https://www.google.com/maps?q=Bandarban"
+    },
+    {
+        name:"Sundarban Boat",
+         email:"sundarban469@gmail.com",
+        type:"boat",
+        location:"khulna",
+        vehicle:"Speed Boat",
+        phone:"01645678901",
+        rating:4.7,
+         available:true,
+        img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+       map:"https://www.google.com/maps?q=Sundarbans"
+    },
+    {
+        name:"Rashed Car Service",
+         email:"rashed469@gmail.com",
+        type:"car",
+        location:"sylhet",
+        vehicle:"Toyota Corolla",
+        phone:"01756789012",
+        rating:4.6,
+         available:true,
+        img:"https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+       map:"https://www.google.com/maps?q=Sylhet"
+    },
+    {
+        name:"Fatema Guide",
+        email:"fatemaguide8469@gmail.com",
+        type:"guide",
+        location:"chattogram",
+        vehicle:"City Expert",
+        phone:"01867890123",
+        rating:4.9,
+         available:true,
+        img:"https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        map:"https://www.google.com/maps?q=Chattogram"
+    },
+    {
+        name:"Boat Ali",
+        email:"aliboat12@gmail.com",
+        type:"boat",
+        location:"cox",
+        vehicle:"Fisherman Boat",
+        phone:"01978901234",
+        rating:4.8,
+         available:true,
+        img:"https://images.unsplash.com/photo-1578631613896-9a72f52f8419?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        map:"https://www.google.com/maps?q=Coxsbazar"
+    },
+    {
+        name:"Rider Joy",
+        email:"joyrider12@gmail.com",
+        type:"bike",
+        location:"rajshahi",
+        vehicle:"Yamaha R15",
+        phone:"01689012345",
+        rating:4.7,
+         available:true,
+        img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+       map:"https://www.google.com/maps?q=Rajshahi"
+    },
+
+
+{
+name:"Arif  Rider",
+email:"arifrider12@gmail.com",
+type:"bike",
+location:"chattogram",
+vehicle:"Honda Hornet",
+phone:"01811223344",
+rating:4.8,
+ available:true,
+img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=Chattogram"
+},
+{
+name:"Nadim Bike Explorer",
+email:"nadim12@gmail.com",
+type:"bike",
+location:"sylhet",
+vehicle:"Suzuki Gixxer",
+phone:"01822334455",
+rating:4.7,
+ available:true,
+img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=sylhet&output=embed"
+},
+{
+name:"Sabbir Moto Rider",
+email:"sabbirrider12@gmail.com",
+type:"bike",
+location:"bandarban",
+vehicle:"Yamaha FZ",
+phone:"01833445566",
+rating:4.9,
+ available:true,
+img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=bandarban&output=embed"
+},
+
+{
+name:"Shamim Taxi Service",
+email:"shamimmtaxi12@gmail.com",
+type:"car",
+location:"dhaka",
+vehicle:"Toyota Axio",
+phone:"01799887766",
+rating:4.8,
+ available:true,
+img:"https://images.unsplash.com/photo-1549924231-f129b911e442?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=dhaka&output=embed"
+},
+{
+name:"Imran SUV Driver",
+email:"imrandriver12@gmail.com",
+type:"car",
+location:"sylhet",
+vehicle:"Toyota Harrier",
+phone:"01788776655",
+rating:4.9,
+ available:true,
+img:"https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=sylhet&output=embed"
+},
+{
+name:"Sohag Microbus",
+email:"Sohagbus12@gmail.com",
+type:"car",
+location:"cox",
+vehicle:"Hiace Microbus",
+phone:"01777665544",
+rating:4.7,
+ available:true,
+img:"https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=coxsbazar"
+},
+
+
+{
+name:"Babul CNG Rider",
+email:"babulcng12@gmail.com",
+type:"cng",
+location:"chattogram",
+vehicle:"CNG Deluxe",
+phone:"01766554433",
+rating:4.6,
+ available:true,
+img:"https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=chattogram&output=embed"
+},
+{
+name:"Rana Auto Service",
+email:"ranaauto12@gmail.com",
+type:"cng",
+location:"sylhet",
+vehicle:"CNG Auto King",
+phone:"01755443322",
+rating:4.7,
+ available:true,
+img:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=sylhet&output=embed"
+},
+{
+name:"Jony CNG Express",
+email:"jonycng12@gmail.com",
+type:"cng",
+location:"cox",
+vehicle:"CNG City Ride",
+phone:"01744332211",
+rating:4.8,
+ available:true,
+img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=Coxsbazar"
+},
+
+
+{
+name:"Sea King Boat",
+email:"seaking12@gmail.com",
+type:"boat",
+location:"cox",
+vehicle:"Luxury Speed Boat",
+phone:"01611223344",
+rating:4.9,
+ available:true,
+img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=Coxsbazar"
+},
+{
+name:"Sumon boat",
+email:"sumonboat12@gmail.com",
+type:"boat",
+location:"kuakata",
+vehicle:"Tourist Boat",
+phone:"01622334455",
+rating:4.8,
+ available:true,
+img:"https://images.unsplash.com/photo-1526481280691-7c1b7b4a8c6d?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=kuakata&output=embed"
+},
+{
+name:"Water Cruise",
+email:"cruise12@gmail.com",
+type:"boat",
+location:"sundarban",
+vehicle:"Launch Boat",
+phone:"01633445566",
+rating:4.7,
+ available:true,
+img:"https://images.unsplash.com/photo-1516490981167-dc9907f8c9b4?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=Khulna"
+},
+
+{
+name:"Rakib Travel Expert",
+email:"rakibguide12@gmail.com",
+type:"guide",
+location:"cox",
+vehicle:"Beach Guide",
+phone:"01911223344",
+rating:5.0,
+ available:true,
+img:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=Coxsbazar"
+},
+{
+name:"Salma Nature Guide",
+email:"salmaguide12@gmail.com",
+type:"guide",
+location:"sylhet",
+vehicle:"Nature Expert",
+phone:"01922334455",
+rating:4.9,
+ available:true,
+img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=sylhet&output=embed"
+},
+{
+name:"Tareq Hill Guide",
+email:"tareqguide12@gmail.com",
+type:"guide",
+location:"bandarban",
+vehicle:"Hill Trekking",
+phone:"01933445566",
+rating:4.8,
+ available:true,
+img:"https://images.unsplash.com/photo-1552058544-f2b08422138a?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=bandarban&output=embed"
+},
+{
+name:"Mitu City Guide",
+email:"mituguide12@gmail.com",
+type:"guide",
+location:"dhaka",
+vehicle:"City Tour",
+phone:"01944556677",
+rating:4.7,
+ available:true,
+img:"https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=dhaka&output=embed"
+},
+{
+name:"Farhan Heritage Guide",
+email:"farhanguide12@gmail.com",
+type:"guide",
+location:"rajshahi",
+vehicle:"Historical Expert",
+phone:"01955667788",
+rating:4.8,
+ available:true,
+img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=rajshahi&output=embed"
+},
+{
+name:"Nusrat Island Guide",
+email:"nusratguide12@gmail.com",
+type:"guide",
+location:"kuakata",
+vehicle:"Sea Tour Expert",
+phone:"01966778899",
+rating:4.9,
+ available:true,
+img:"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=kuakata&output=embed"
+},
+{
+name:"Jahid Forest Guide",
+email:"jahidguide12@gmail.com",
+type:"guide",
+location:"sundarban",
+vehicle:"Forest Specialist",
+phone:"01977889900",
+rating:5.0,
+ available:true,
+img:"https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=300&h=300&fit=crop&crop=face",
+map:"https://www.google.com/maps?q=Sundarbans National Park"
+}
+
+
+
+];
+
+function showData(list){
+
+    let container = document.getElementById("cards");
+    let countEl = document.getElementById("count");
+
+    container.innerHTML = "";
+    countEl.textContent = list.length;
+
+    // ✅ EMPTY STATE FIX
+    if(list.length === 0){
+        container.innerHTML = "<p style='margin-top:20px;'>No services found 😔</p>";
+        return;
+    }
+
+    list.forEach(item => {
+
+        let stars = "★".repeat(Math.floor(item.rating)) + "☆".repeat(5 - Math.floor(item.rating));
+
+        container.innerHTML += `
+            <div class="card">
+
+            ${item.available ? '<span class="available-tag">Available Now</span>' : ''}
+
+                <img src="${item.img}" class="profile-img">
+                <h3>${item.name}</h3>
+
+                <div class="vehicle-tag">${item.vehicle}</div>
+
+                <div class="details">
+                    <div class="detail-item">
+                        <i class="fas fa-star"></i>
+                        <span>${stars} ${item.rating}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fas fa-phone"></i>
+                      <span>
+${localStorage.getItem("user") 
+    ? item.phone 
+    : item.phone.slice(0,6) + "****"}
+</span>
+                    </div>
+                </div>
+
+                <div class="location-badge">
+                    <i class="fas fa-map-pin"></i> ${item.location.toUpperCase()}
+                </div>
+
+               <div class="btn-group">
+    <button class="btn btn-primary" onclick="contact('${item.phone}')">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+    </button>
+
+    
+
+
+  <button class="btn btn-secondary" onclick="viewMap('${item.map}')">
+    <i class="fas fa-map"></i> Location
+</button>
+
+<button class="btn btn-select" onclick="
+    ${item.type === 'guide' 
+        ? `selectGuide('${item.email}')` 
+        : `selectDriver('${item.email}')`}
+">
+    <i class="fas fa-map"></i> Select
+</button>
+</div>
+
+            </div>
+        `;
+    });
+}
+
+function filterData(){
+    let loc = document.getElementById("location").value;
+    let type = document.getElementById("type").value;
+    
+    let filtered = data.filter(item => 
+        (loc === "all" || item.location === loc) &&
+        (type === "all" || item.type === type)
+    );
+    
+    showData(filtered);
+}
+
+function contact(phone){
+    window.open(`https://wa.me/${phone.replace(/^0/,'880')}`, '_blank');
+}
+
+function viewMap(mapUrl){
+    alert("Opening map location...");
+    window.open(mapUrl, '_blank');
+}
+
+// INITIAL LOAD
+showData(data);
+</script>
+
+
+
+
+<script>
+if (!localStorage.getItem("user")) {
+
+    setTimeout(() => {
+        document.querySelectorAll(".btn-primary").forEach(btn => {
+            if (btn.innerText.includes("WhatsApp")) {
+                btn.innerText = "Login to Contact";
+            }
+        });
+
+        document.querySelectorAll(".btn-secondary").forEach(btn => {
+            if (btn.innerText.includes("Location")) {
+                btn.innerText = "Login Required";
+            }
+        });
+    }, 100);
+}
+</script>
+
+<script>
+function selectDriver(email){
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+        alert("⚠️ Please login first");
+        window.location.href = "login06.html";
+        return;
+    }
+
+    localStorage.removeItem("selectedGuide"); //  IMPORTANT
+localStorage.setItem("selectedDriver", email);
+
+    alert("Driver selected: " + email);
+
+    window.location.href = "destination.html";
+}
+</script>
+
+<script>
+
+function selectGuide(email){
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+        alert("⚠️ Please login first");
+        window.location.href = "login06.html";
+        return;
+    }
+
+    localStorage.removeItem("selectedDriver"); // IMPORTANT
+localStorage.setItem("selectedGuide", email);
+
+    alert("Guide selected: " + email);
+
+    window.location.href = "destination.html";
+}
+
+</script>
+
+
+
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+const userArea = document.getElementById("userArea");
+if (user) {
+    userArea.innerHTML = `
+        <span style="cursor:pointer; font-weight:600;" onclick="goProfile()">
+            👤 ${user.name}
+        </span>
+    `;
+} else {
+    userArea.innerHTML = `
+       <a href="login06.html" 
+   style="background: var(--primary-color); color: #333; padding: 10px 25px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: 0.3s;">
+   Log In
+</a>
+<a href="signup.html" 
+   style="background: var(--primary-color); color: #333; padding: 10px 25px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: 0.3s;">
+   Sign Up
+</a>
+    `;
+}
+/* BLOCK WHATSAPP + LOCATION */
+if (!user) {
+
+    window.contact = function(phone){
+        alert("⚠️ Please login to contact");
+        window.location.href = "login06.html";
+    }
+
+    window.viewMap = function(){
+        alert("⚠️ Please login to view location");
+    }
+}
+
+function goProfile() {
+    window.location.href = "userprofile.html";
+}
+</script>
+<script>
+function isLoggedIn() {
+    return localStorage.getItem("user") !== null;
+}
+</script>
+
+</body>
+</html>

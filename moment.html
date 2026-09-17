@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traveler Moments | Pocket Tour</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ========================================
+   RESET & BASE STYLES
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    color: white;
+    background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
+        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ========================================
+   LOADING ANIMATION
+======================================== */
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid #38bdf8;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+======================================== */
+/* NAVBAR CONTAINER */
+.navbar{
+position: fixed;
+top:0;
+width:100%;
+z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 8%;
+
+background: rgba(15, 23, 42, 0.7);
+backdrop-filter: blur(12px);
+
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+.logo{
+font-size:1.5rem;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.nav-menu a{
+text-decoration:none;
+color:white;
+font-size:0.9rem;
+position:relative;
+transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#38bdf8;
+transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+position:absolute;
+top:35px;
+left:0;
+
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(10px);
+
+border-radius:10px;
+padding:10px 0;
+
+display:none;
+flex-direction:column;
+min-width:150px;
+}
+
+.dropdown-content a{
+padding:10px 15px;
+display:block;
+}
+
+.dropdown-content a:hover{
+background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+/* LOGIN */
+.nav-right a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+/* SIGNUP BUTTON */
+.btn-signup{
+padding:8px 18px;
+border-radius:20px;
+background:#38bdf8;
+color:white !important;
+transition:0.3s;
+}
+
+.btn-signup:hover{
+background:#0ea5e9;
+transform:scale(1.05);
+}
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.nav-menu{
+display:none;
+}
+
+.navbar{
+padding:15px 5%;
+}
+
+}
+
+
+/* ========================================
+   MAIN SECTIONS
+======================================== */
+.section {
+    padding: 120px 10% 80px;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-section {
+    padding: 200px 10% 100px;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 1s ease;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 1s ease 0.2s both;
+}
+
+/* ========================================
+   OPTION CARDS
+======================================== */
+.option-box {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 60px;
+    animation: fadeInUp 1s ease 0.4s both;
+}
+
+.option {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(25px);
+    padding: 50px 30px;
+    border-radius: 25px;
+    width: 320px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+}
+
+.option:hover::before {
+    left: 100%;
+}
+
+.option:hover {
+    transform: translateY(-15px) scale(1.05);
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+}
+
+.option-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.option h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.option p {
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* ========================================
+   HIDE SECTIONS
+======================================== */
+.hidden {
+    display: none !important;
+}
+
+/* ========================================
+   GALLERY SECTION
+======================================== */
+.gallery-header {
+    margin-bottom: 40px;
+}
+
+.gallery-header h2 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #38bdf8, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+.stat-label {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.grid {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    padding: 25px;
+    text-align: left;
+}
+
+.card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+.card-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.9;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.card-rating {
+    color: #fbbf24;
+    font-weight: 600;
+}
+
+.card-message {
+    line-height: 1.6;
+    opacity: 0.95;
+}
+
+.card-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(56, 189, 248, 0.3);
+    color: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.action-btn:hover {
+    background: #38bdf8;
+    transform: scale(1.05);
+}
+
+/* ========================================
+   FORM SECTION
+======================================== */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-box {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(25px);
+    padding: 50px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    opacity: 0.95;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 18px;
+    margin: 0;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #38bdf8;
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+input[type="file"] {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    padding: 15px;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background: #38bdf8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.preview-container {
+    margin: 20px 0;
+    position: relative;
+}
+
+.preview {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+    display: none;
+    border: 2px solid rgba(56, 189, 248, 0.5);
+}
+
+.rating-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.star {
+    font-size: 2rem;
+    color: rgba(251, 191, 36, 0.3);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.star.active {
+    color: #fbbf24;
+}
+
+/* ========================================
+   BUTTONS
+======================================== */
+.btn {
+    padding: 18px 40px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #38bdf8, #06b6d4);
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(56, 189, 248, 0.6);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.2);
+    box-shadow: none;
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* ========================================
+   BACK BUTTON
+======================================== */
+.back-btn {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: 0.3s;
+    z-index: 100;
+}
+
+.back-btn:hover {
+    background: rgba(0,0,0,0.8);
+    transform: translateX(-5px);
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .section {
+        padding: 100px 5% 60px;
+    }
+    
+    .hero-section {
+        padding: 150px 5% 80px;
+    }
+    
+    .option-box {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .option {
+        width: 90%;
+        max-width: 400px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .back-btn {
+        left: 20px;
+        top: 20px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .form-box {
+        padding: 30px 20px;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+======================================== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.opacity-70 { opacity: 0.7; }
+.opacity-80 { opacity: 0.8; }
+.opacity-90 { opacity: 0.9; }
+
+/* ========================================
+   CUSTOM SCROLLBAR
+======================================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.5);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8;
+}
+
+/* ========================================
+   FOOTER
+======================================== */
+.footer {
+    background: rgba(0,0,0,0.8);
+    padding: 40px 10%;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer p {
+    opacity: 0.8;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.5rem;
+    transition: 0.3s;
+}
+
+.social-links a:hover {
+    color: #38bdf8;
+    transform: translateY(-3px);
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+    <div class="loader"></div>
+</div>
+
+<!-- HEADER -->
+<header class="navbar">
+
+<div class="logo">POCKET<span>TOUR</span></div>
+
+<nav class="nav-menu">
+<a href="HOME1.html">Home</a>
+<a href="destination.html">Destinations</a>
+<a href="Package.html">Packages</a>
+<a href="Contact.html">Contact</a>
+<a href="whyus.html">Why Us?</a>
+
+<div class="dropdown">
+<a href="#">Services ▾</a>
+<div class="dropdown-content">
+<a href="explore.html">Explore</a>
+<a href="localtransport.html">Transport</a>
+<a href="travelsuggestion.html">Suggestion</a>
+</div>
+</div>
+</nav>
+
+<div class="nav-right">
+<a href="login06.html">Log In</a>
+<a href="signup.html" class="btn-signup">Sign Up</a>
+</div>
+
+</header>
+
+	
+
+
+<!-- HERO / OPTIONS -->
+<section class="section hero-section" id="home">
+
+<h1>Traveler Moments</h1>
+<p class="subtitle">Explore real travel experiences or share your own journey</p>
+
+<div class="option-box">
+
+<div class="option" onclick="showGallery()">
+<span class="option-icon">📸</span>
+<h3>See Others' Posts</h3>
+<p>Explore real travel photos & experiences</p>
+</div>
+
+<div class="option" onclick="showForm()">
+<span class="option-icon">✍️</span>
+<h3>Share Your Moment</h3>
+<p>Upload your travel memory & inspire others</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- GALLERY -->
+<section class="section hidden" id="gallerySection">
+
+<button class="back-btn" onclick="goBack()">⬅ Back</button>
+
+<h2>Traveler Gallery</h2>
+
+<div class="grid" id="postContainer"></div>
+
+</section>
+
+<!-- FORM -->
+<section class="section hidden" id="formSection">
+
+<button class="back-btn" onclick="goBack()">⬅ Back</button>
+
+<div class="form-container">
+
+<div class="form-box">
+
+<div class="form-group">
+<label>Your Name</label>
+<input type="text" id="name">
+</div>
+
+<div class="form-group">
+<label>Location</label>
+<input type="text" id="location">
+</div>
+
+<div class="form-group">
+<label>Your Experience</label>
+<textarea id="message"></textarea>
+</div>
+
+<div class="form-group">
+<label>Rating</label>
+<select id="rating">
+<option value="">Select Rating</option>
+<option value="⭐">⭐</option>
+<option value="⭐⭐">⭐⭐</option>
+<option value="⭐⭐⭐">⭐⭐⭐</option>
+<option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+<option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Upload Image</label>
+<input type="file" id="image">
+</div>
+
+<img id="preview" class="preview">
+
+<button class="btn" onclick="addPost()">Post Moment</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SCRIPT -->
+<script>
+
+    localStorage.removeItem("moments");
+
+/* LOADING FIX */
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loading");
+    loader.style.opacity = "0";
+    setTimeout(()=> loader.style.display="none", 500);
+});
+
+/* NAV SCROLL EFFECT */
+window.addEventListener("scroll", ()=>{
+    document.querySelector(".header").classList.toggle("scrolled", window.scrollY > 50);
+});
+
+/* SHOW SECTIONS */
+function showGallery(){
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("gallerySection").classList.remove("hidden");
+    displayPosts();
+}
+
+function showForm(){
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("formSection").classList.remove("hidden");
+}
+
+function goBack(){
+    document.getElementById("home").classList.remove("hidden");
+    document.getElementById("gallerySection").classList.add("hidden");
+    document.getElementById("formSection").classList.add("hidden");
+}
+
+/* IMAGE PREVIEW */
+const imageInput = document.getElementById("image");
+const preview = document.getElementById("preview");
+
+imageInput.addEventListener("change", function(){
+    const file = this.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            preview.src = e.target.result;
+            preview.style.display="block";
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+/* ADD POST */
+function addPost(){
+
+let name = document.getElementById("name").value;
+let location = document.getElementById("location").value;
+let message = document.getElementById("message").value;
+let rating = document.getElementById("rating").value;
+let file = imageInput.files[0];
+
+if(!name || !file){
+    alert("Please enter name and upload image");
+    return;
+}
+
+let reader = new FileReader();
+
+reader.onload = function(){
+
+let post = { name, location, message, rating, image: reader.result };
+
+let posts = JSON.parse(localStorage.getItem("moments")) || [];
+posts.push(post);
+
+localStorage.setItem("moments", JSON.stringify(posts));
+
+displayPosts();
+showGallery();
+
+};
+
+reader.readAsDataURL(file);
+}
+
+/* DISPLAY POSTS */
+function displayPosts(){
+
+let container = document.getElementById("postContainer");
+container.innerHTML = "";
+
+let posts = JSON.parse(localStorage.getItem("moments")) || [];
+
+if(posts.length === 0){
+    container.innerHTML = "<p>No moments yet 😔</p>";
+    return;
+}
+
+posts.reverse().forEach(post => {
+
+container.innerHTML += `
+<div class="card">
+<img src="${post.image}">
+<div class="card-content">
+<h4>${post.name}</h4>
+<p class="card-location">📍 ${post.location || ""}</p>
+<p class="card-rating">${post.rating || ""}</p>
+<p class="card-message">${post.message || ""}</p>
+</div>
+</div>
+`;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

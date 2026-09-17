@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pocket Tour | Sign Up</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* BACKGROUND */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b');
+    background-size: cover;
+    color: white;
+}
+
+/* CARD */
+.container {
+    width: 400px;
+    padding: 35px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    text-align: center;
+    animation: fadeUp 1s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+/* INPUT */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    outline: none;
+}
+
+/* BUTTON */
+.signup-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    background: #38bdf8;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.signup-btn:hover {
+    transform: translateY(-2px);
+    background: #0284c7;
+    box-shadow: 0 0 15px rgba(56,189,248,0.6);
+}
+
+/* LINKS */
+.links {
+    margin-top: 20px;
+    font-size: 0.8rem;
+}
+
+.links a {
+    color: #38bdf8;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* NAVBAR CONTAINER */
+.navbar{
+position: fixed;
+top:0;
+width:100%;
+z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 8%;
+
+background: rgba(15, 23, 42, 0.7);
+backdrop-filter: blur(12px);
+
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+.logo{
+font-size:1.5rem;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.nav-menu a{
+text-decoration:none;
+color:white;
+font-size:0.9rem;
+position:relative;
+transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#38bdf8;
+transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+position:absolute;
+top:35px;
+left:0;
+
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(10px);
+
+border-radius:10px;
+padding:10px 0;
+
+display:none;
+flex-direction:column;
+min-width:150px;
+}
+
+.dropdown-content a{
+padding:10px 15px;
+display:block;
+}
+
+.dropdown-content a:hover{
+background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+/* LOGIN */
+.nav-right a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+/* SIGNUP BUTTON */
+.btn-signup{
+padding:8px 18px;
+border-radius:20px;
+background:#38bdf8;
+color:white !important;
+transition:0.3s;
+}
+
+.btn-signup:hover{
+background:#0ea5e9;
+transform:scale(1.05);
+}
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.nav-menu{
+display:none;
+}
+
+.navbar{
+padding:15px 5%;
+}
+
+}
+
+
+
+
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+<div class="logo">POCKET<span>TOUR</span></div>
+
+<nav class="nav-menu">
+<a href="HOME1.html">Home</a>
+<a href="destination.html">Destinations</a>
+<a href="Package.html">Packages</a>
+<a href="Contact.html">Contact</a>
+<a href="whyus.html">Why Us?</a>
+
+<div class="dropdown">
+<a href="#">Services ▾</a>
+<div class="dropdown-content">
+<a href="explore.html">Explore</a>
+<a href="localtransport.html">Transport</a>
+<a href="travelsuggestion.html">Suggestion</a>
+</div>
+</div>
+</nav>
+
+<div class="nav-right">
+<a href="login06.html">Log In</a>
+<a href="signup.html" class="btn-signup">Sign Up</a>
+</div>
+
+</header>
+
+
+
+
+
+<div class="container">
+    <h2>Create Account</h2>
+    <p class="subtitle">Join Pocket Tour today</p>
+
+    <form onsubmit="handleSignup(event)">
+        <div class="input-group">
+            <input type="text" name="name" placeholder="Full Name" required>
+        </div>
+
+        <div class="input-group">
+           <input type="email" name="email" placeholder="Email Address" required>
+        </div>
+
+        <div class="input-group">
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Confirm Password" required>
+        </div>
+
+        <button class="signup-btn">Sign Up</button>
+    </form>
+
+    <div class="links">
+        Already have an account? 
+       <a href="login06.html" class="btn-login">Log In</a>
+    </div>
+</div>
+
+
+
+
+<script>
+const form = document.querySelector("form");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.querySelector("input[name='name']").value;
+    const email = document.querySelector("input[name='email']").value;
+    const password = document.querySelector("input[name='password']").value;
+
+    const res = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await res.json();
+    alert(data.msg);
+});
+</script>
+
+</body>
+</html>

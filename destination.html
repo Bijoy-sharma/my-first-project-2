@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Tour | Premium Destinations</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           CUSTOM PROPERTIES & RESET
+        ========================================================================== */
+        :root {
+            --primary-color: #38bdf8;
+            --primary-dark: #0ea5e9;
+            --secondary-color: #06b6d4;
+            --accent-color: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.7);
+            --bg-glass: rgba(255,255,255,0.12);
+            --bg-glass-dark: rgba(255,255,255,0.08);
+            --border-glass: rgba(255,255,255,0.2);
+            --shadow-sm: 0 8px 32px rgba(0,0,0,0.3);
+            --shadow-md: 0 20px 60px rgba(0,0,0,0.4);
+            --shadow-lg: 0 25px 80px rgba(0,0,0,0.5);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 24px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.7) 100%),
+                url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=85') center/cover fixed;
+            min-height: 100vh;
+        }
+
+        /* ==========================================================================
+           LAYOUT COMPONENTS
+        ========================================================================== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--text-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+           BUTTONS & INTERACTIVE ELEMENTS
+        ========================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            box-shadow: var(--shadow-sm);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
+        }
+
+        .btn-secondary {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-glass-dark);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            width: 56px;
+            height: 56px;
+            padding: 0;
+            border-radius: 50%;
+            justify-content: center;
+        }
+
+        /* ==========================================================================
+           FILTERS
+        ========================================================================== */
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .filter-btn {
+            position: relative;
+            padding: 1rem 1.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           GRID & CARDS
+        ========================================================================== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
+            margin-bottom: 6rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: all var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+        }
+
+        .card:hover {
+            transform: translateY(-16px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            transition: all var(--transition-slow);
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-content h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .card-budget {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 200px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ==========================================================================
+           FORM STYLES
+        ========================================================================== */
+      /* ==========================================================================
+   PREMIUM FORM SECTION (UPGRADED)
+========================================================================== */
+
+.form-section {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-lg);
+    
+    padding: 3.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+
+    box-shadow: 
+        0 25px 80px rgba(0,0,0,0.6),
+        inset 0 0 25px rgba(255,255,255,0.05);
+
+    transition: all var(--transition-slow);
+}
+
+.form-section:hover {
+    transform: translateY(-6px);
+}
+
+/* TITLE */
+.form-section h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    background: linear-gradient(135deg, var(--primary-color), #ffffff);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* GROUP */
+.form-group {
+    position: relative;
+    margin-bottom: 1.8rem;
+}
+
+/* INPUT + SELECT */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 1.2rem 1rem;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-md);
+
+    color: var(--text-primary);
+    font-size: 1rem;
+
+    transition: all var(--transition-normal);
+}
+
+/* PLACEHOLDER */
+.form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+/* FOCUS */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+
+    box-shadow: 
+        0 0 0 4px rgba(56,189,248,0.2),
+        0 0 20px rgba(56,189,248,0.5);
+
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* DATE STYLE (ENHANCED) */
+input[type="date"] {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    transform: scale(1.2);
+}
+
+/* COST DISPLAY (NEW PREMIUM) */
+.cost-box {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.3);
+
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+
+    transition: var(--transition-normal);
+}
+
+.cost-box:hover {
+    box-shadow: 0 0 20px rgba(56,189,248,0.4);
+}
+
+#totalCost {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* BUTTON IMPROVEMENT */
+.form-section .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.form-section .btn-primary {
+    margin-top: 1rem;
+}
+
+.form-section .btn-secondary {
+    margin-top: 0.8rem;
+}
+
+/* BUTTON HOVER EXTRA */
+.form-section .btn:hover {
+    transform: translateY(-3px) scale(1.03);
+}
+
+        /* ==========================================================================
+           ANIMATIONS & LOADING
+        ========================================================================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN
+        ========================================================================== */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .section {
+                padding: 100px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                gap: 0.75rem;
+            }
+            
+            .filter-btn {
+                padding: 0.875rem 1.25rem;
+                font-size: 0.8rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .form-section {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+        }
+
+        /* ==========================================================================
+           UTILITIES
+        ========================================================================== */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+/* DATE INPUT - PREMIUM */
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 1.2rem 1rem;
+    border-radius: var(--radius-md);
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+
+    color: white;
+    font-size: 1rem;
+
+    transition: all 0.3s ease;
+}
+
+/* ICON */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+/* FOCUS */
+.form-group input[type="date"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(56,189,248,0.5);
+}
+
+/* FIX NUMBER INPUT UI */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: textfield;
+}
+
+.transport-cta {
+    margin: 60px 0;
+    padding: 40px;
+    text-align: center;
+
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.transport-cta h2{
+    margin-bottom: 10px;
+}
+
+.transport-cta p{
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+
+.btn-primary:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.btn-secondary:hover{
+    background: white;
+    color: black;
+}
+
+
+.w-full{
+    width:100%;
+}
+
+
+.navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: white;
+            margin: 0 20px;
+            font-weight: 400;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--primary-color);
+        }
+
+        /* --- Search & Auth --- */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 5px 15px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 8px;
+            outline: none;
+        }
+
+        .search-box button {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .auth-group .btn-login {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 0.9rem;
+        }
+
+        .btn-signup {
+            background: var(--primary-color);
+            color: #333 !important;
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn-signup:hover {
+            box-shadow: 0 0 20px rgba(251, 211, 188, 0.4);
+            transform: translateY(-2px);
+        }
+
+/* NAVBAR CONTAINER */
+.navbar{
+    position: fixed;
+    top:0;
+    width:100%;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px 8%;
+
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+.logo{
+    font-size:1.5rem;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.nav-menu a{
+    text-decoration:none;
+    color:white;
+    font-size:0.9rem;
+    position:relative;
+    transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-5px;
+    width:0%;
+    height:2px;
+    background:#38bdf8;
+    transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+    width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+    position:relative;
+}
+
+.dropdown-content{
+    position:absolute;
+    top:35px;
+    left:0;
+
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+
+    border-radius:10px;
+    padding:10px 0;
+
+    display:none;
+    flex-direction:column;
+    min-width:150px;
+}
+
+.dropdown-content a{
+    padding:10px 15px;
+    display:block;
+}
+
+.dropdown-content a:hover{
+    background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+    display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+/* LOGIN */
+.nav-right a{
+    color:white;
+    text-decoration:none;
+    font-size:0.9rem;
+}
+
+/* SIGNUP BUTTON */
+.btn-signup{
+    padding:8px 18px;
+    border-radius:20px;
+    background:#38bdf8;
+    color:white !important;
+    transition:0.3s;
+}
+
+.btn-signup:hover{
+    background:#0ea5e9;
+    transform:scale(1.05);
+}
+
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+    padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .nav-menu{
+        display:none;
+    }
+
+    .navbar{
+        padding:15px 5%;
+    }
+
+}
+
+
+    </style>
+</head>
+
+<body>
+
+
+    <header class="navbar">
+
+    <div class="logo">POCKET<span>TOUR</span></div>
+
+    <nav class="nav-menu">
+        <a href="HOME1.html">Home</a>
+        <a href="destination.html">Destinations</a>
+        <a href="Package.html">Packages</a>
+        <a href="Contact.html">Contact</a>
+        <a href="whyus.html">Why Us?</a>
+
+        <div class="dropdown">
+            <a href="#">Services </a>
+            <div class="dropdown-content">
+                <a href="explore.html">Explore</a>
+                <a href="localtransport.html">Transport</a>
+                <a href="travelsuggestion.html">Suggestion</a>
+            </div>
+        </div>
+        <a href="admin1.html" class="admin-btn">Driver / Guide</a>
+    </nav>
+
+   <div class="nav-right" id="userArea">
+    <!-- Dynamic content will come here -->
+</div>
+
+</header>
+
+
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <!-- Hero Title -->
+                <h1 class="section-title animate" style="text-align: center;">Explore Premium Destinations</h1>
+
+                <!-- Filters -->
+                <div class="filters" role="radiogroup" aria-label="Budget filters">
+                    <button class="btn btn-secondary filter-btn active" data-filter="all" role="radio" aria-checked="true">
+                        <i class="fas fa-globe"></i> All Destinations
+                    </button>
+                    <button class="btn btn-secondary filter-btn" data-filter="low" role="radio">
+                        <i class="fas fa-coins"></i> Low Budget
+                    </button>
+                    <button class="btn btn-secondary filter-btn" data-filter="medium" role="radio">
+                        <i class="fas fa-wallet"></i> Medium Budget
+                    </button>
+                    <button class="btn btn-secondary filter-btn" data-filter="high" role="radio">
+                        <i class="fas fa-gem"></i> Premium Budget
+                    </button>
+                </div>
+
+                <!-- Destinations Grid -->
+                <div class="grid" id="destinationsGrid">
+                    <!-- Sajek Valley -->
+                    <article class="card animate" data-type="low">
+                        <img src="./sajeek.jpg" 
+                             alt="Sajek Valley - Clouds and mountains" class="card-img" loading="lazy">
+                        <div class="card-content">
+                            <h3>Sajek Valley</h3>
+                            <p class="card-description">Experience clouds touching mountains with peaceful tribal vibes</p>
+                            <div class="card-budget">
+                                <i class="fas fa-tag"></i>
+                                <span>৳3,000 - ৳5,000</span>
+                            </div>
+                            <div class="map-container">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.614482!2d92.384!3d23.349!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDIwJzU2LjQiTiA5MsKwMjMnMDQuMyJF!5e0!3m2!1sen!2sbd!4v1690000000000" 
+                                        title="Sajek Valley Location" loading="lazy"></iframe>
+                            </div>
+                           <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+                           <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+                        </div>
+                    </article>
+
+                    <!-- Cox's Bazar -->
+                    <article class="card animate" data-type="medium">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=85" 
+                             alt="Cox's Bazar - World's longest sea beach" class="card-img" loading="lazy">
+                        <div class="card-content">
+                            <h3>Cox's Bazar</h3>
+                            <p class="card-description">World's longest natural sea beach with golden sands</p>
+                            <div class="card-budget">
+                                <i class="fas fa-tag"></i>
+                                <span>৳5,000 - ৳9,000</span>
+                            </div>
+                            <div class="map-container">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.3!2d91.837!3d21.427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDI1JzM3LjIiTiA5McKwNTAnMTYuMiJF!5e0!3m2!1sen!2sbd!4v1690000000000" 
+                                        title="Cox's Bazar Location" loading="lazy"></iframe>
+                            </div>
+                            <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+                            <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+                        </div>
+                    </article>
+
+                    <!-- Bandarban -->
+                    <!-- Bandarban -->
+<article class="card animate" data-type="medium">
+    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85" 
+         alt="Bandarban - Adventure and hills" class="card-img" loading="lazy">
+
+    <div class="card-content">
+        <h3>Bandarban</h3>
+
+        <p class="card-description">
+            Thrilling adventures amidst lush green hills, waterfalls, and tribal culture.
+        </p>
+
+        <div class="card-budget">
+            <i class="fas fa-tag"></i>
+            <span>৳6,000 - ৳10,000</span>
+        </div>
+
+        <div class="map-container">
+            <iframe 
+                src="https://maps.google.com/maps?q=bandarban&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                title="Bandarban Location"
+                loading="lazy">
+            </iframe>
+        </div>
+
+      <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+        <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+    </div>
+</article>
+
+
+<!-- Saint Martin -->
+<article class="card animate" data-type="high">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=85" class="card-img">
+    <div class="card-content">
+        <h3>Saint Martin</h3>
+        <p class="card-description">Crystal clear water & island paradise</p>
+        <div class="card-budget"><i class="fas fa-tag"></i> ৳9,000 - ৳15,000</div>
+        <div class="map-container">
+            <iframe src="https://maps.google.com/maps?q=saint martin&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+      <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+       <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+    </div>
+</article>
+
+<!-- Sylhet -->
+<article class="card animate" data-type="medium">
+    <img src="./Sylhet.jpeg" class="card-img">
+    <div class="card-content">
+        <h3>Sylhet</h3>
+        <p class="card-description">Tea gardens, waterfalls & nature</p>
+        <div class="card-budget"><i class="fas fa-tag"></i> ৳5,000 - ৳8,000</div>
+        <div class="map-container">
+            <iframe src="https://maps.google.com/maps?q=sylhet&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+      <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+        <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+    </div>
+</article>
+
+<!-- Khagrachari -->
+<article class="card animate" data-type="low">
+    <img src="./khagrachari.jpg" class="card-img">
+    <div class="card-content">
+        <h3>Khagrachari</h3>
+        <p class="card-description">Hills, rivers & tribal culture</p>
+        <div class="card-budget"><i class="fas fa-tag"></i> ৳3,000 - ৳6,000</div>
+        <div class="map-container">
+            <iframe src="https://maps.google.com/maps?q=khagrachari&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+       <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+        <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+    </div>
+</article>
+
+<!-- Rajshahi -->
+<article class="card animate" data-type="high">
+    <img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68?auto=format&fit=crop&w=800&q=85" 
+         alt="Rajshahi - Heritage and riverside" class="card-img" loading="lazy">
+
+    <div class="card-content">
+        <h3>Rajshahi</h3>
+
+        <p class="card-description">
+            Peaceful city by Padma River, mango gardens & historical sites.
+        </p>
+
+        <div class="card-budget">
+            <i class="fas fa-tag"></i>
+            <span>৳8,000 - ৳12,000</span>
+        </div>
+
+        <div class="map-container">
+            <iframe 
+                src="https://maps.google.com/maps?q=rajshahi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                title="Rajshahi Location"
+                loading="lazy">
+            </iframe>
+        </div>
+
+      <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+        <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+    </div>
+</article>
+
+<!-- Chattogram -->
+<article class="card animate" data-type="high">
+    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=85" 
+         alt="Chattogram - Hills and port city" class="card-img" loading="lazy">
+
+    <div class="card-content">
+        <h3>Chattogram</h3>
+
+        <p class="card-description">
+            Sea, hills, port city life & gateway to Bandarban adventures.
+        </p>
+
+        <div class="card-budget">
+            <i class="fas fa-tag"></i>
+            <span>৳10,000 - ৳15,000</span>
+        </div>
+
+        <div class="map-container">
+            <iframe 
+                src="https://maps.google.com/maps?q=chattogram&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                title="Chattogram Location"
+                loading="lazy">
+            </iframe>
+        </div>
+
+      <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+
+        <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+    </div>
+</article>
+
+<!-- Dinajpur -->
+<article class="card animate" data-type="medium">
+    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=85" 
+         alt="Dinajpur - Kantajew Temple" class="card-img" loading="lazy">
+
+    <div class="card-content">
+        <h3>Dinajpur</h3>
+
+        <p class="card-description">
+            Famous for Kantajew Temple, heritage sites, and peaceful environment.
+        </p>
+
+        <div class="card-budget">
+            <i class="fas fa-tag"></i>
+            <span>৳5,000 - ৳8,000</span>
+        </div>
+
+        <div class="map-container">
+            <iframe 
+                src="https://maps.google.com/maps?q=dinajpur&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                title="Dinajpur Location"
+                loading="lazy">
+            </iframe>
+        </div>
+
+      <button class="btn btn-primary"
+onclick="document.getElementById('travelForm').scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-plane-departure"></i>
+    Plan Trip Now
+</button>
+        <button class="btn btn-secondary" onclick="window.location.href='localtransport.html'">
+    <i class="fas fa-car"></i>
+    Find Transport
+</button>
+    </div>
+</article>
+
+
+</div> <!-- END GRID -->
+
+<!-- LOCAL TRANSPORT CTA -->
+<section class="transport-cta">
+
+<h2>Need Help Reaching Your Destination?</h2>
+
+<p>
+Find trusted drivers, bikes, boats & local guides instantly for your trip.
+</p>
+
+<button onclick="window.location.href='localtransport.html'" class="btn btn-primary">
+    <i class="fas fa-route"></i>
+    Find Local Transport & Guide
+</button>
+
+</section>
+
+<!-- SERVICE FORM -->
+<div class="form-section">
+    <h3>Get Travel Plan</h3>
+    <p id="selectedDriverText" style="margin-bottom:10px; color:#38bdf8;"></p>
+
+    <form id="travelForm">
+
+      <!-- TRAVELER NAME -->
+<div class="form-group">
+    <input type="text" id="name" placeholder="Full Name" required>
+</div>
+
+<!-- EMAIL -->
+<div class="form-group">
+    <input type="email" id="email" placeholder="Email Address" required>
+</div>
+<div class="form-group">
+    <input type="tel" id="phone" placeholder="Contact number" required>
+</div>
+
+
+<!-- PLACE SELECT -->
+<div class="form-group">
+   <select id="place" required>
+    <option value="" disabled selected>Select Destination</option>
+
+    <option value="Cox's Bazar">Cox's Bazar</option>
+    <option value="Sajek Valley">Sajek Valley</option>
+    <option value="Bandarban">Bandarban</option>
+    <option value="Saint Martin">Saint Martin</option>
+    <option value="Sylhet">Sylhet</option>
+    <option value="Khagrachari">Khagrachari</option>
+    <option value="Rajshahi">Rajshahi</option>
+    <option value="Chattogram">Chattogram</option>
+    <option value="Dinajpur">Dinajpur</option>
+</select>
+</div>
+
+
+
+       <!-- GROUP SIZE (FIXED) -->
+
+       
+<div class="form-group">
+    <label for="groupSize">Group Size</label>
+
+    <input 
+        type="number" 
+        id="groupSize" 
+        name="groupSize"
+        placeholder="Enter number of travelers (e.g. 3)"
+        min="1"
+        max="20"
+        required
+    >
+</div>
+
+        <!-- DATE -->
+        <div class="form-group">
+            <label>Select Travel Date</label>
+            <input type="date" id="travelDate" required>
+        </div>
+
+        <!-- DAYS -->
+        <div class="form-group">
+            <input type="number" id="days" placeholder="Number of Days" min="1" required>
+        </div>
+
+        <!-- FOOD -->
+        <div class="form-group">
+      <select id="food" required>
+    <option value="" disabled selected>Food Included?</option>
+    <option value="Yes">Yes — ৳800/person/day</option>
+    <option value="No">No — ৳0</option>
+</select>
+        </div>
+
+        <!-- STAY -->
+        <div class="form-group">
+ <select id="stay" required>
+    <option value="" disabled selected>Select Accommodation</option>
+    <option value="No">No — ৳0</option>
+    <option value="Hotel">Hotel</option>
+    <option value="Resort">Resort</option>
+</select>
+        </div>
+
+        <!-- TOTAL COST -->
+       <div class="cost-box">
+
+    <div>
+        🍽️ Food:
+        <strong id="foodCostDisplay">৳0</strong>
+    </div>
+
+    <div>
+        🏨 Accommodation:
+        <strong id="stayCostDisplay">৳0</strong>
+    </div>
+
+    <hr style="margin:12px 0; opacity:0.2;">
+
+    <div>
+        💰 Estimated Cost:
+        <strong id="totalCost">৳0</strong>
+    </div>
+
+</div>
+
+        <!-- BUTTON -->
+        <button class="btn btn-primary" type="submit">
+            <i class="fas fa-paper-plane"></i>
+            Request Plan
+        </button>
+
+        <!-- CONFIRM -->
+        <!-- <button type="button" class="btn btn-secondary" onclick="confirmPlan()" style="margin-top:10px;">
+            <i class="fas fa-check-circle"></i>
+            Confirm Plan
+        </button> -->
+
+    </form>
+</div>
+
+</div> <!-- END CONTAINER -->
+</section>
+</main>
+
+
+
+<script>
+/* FILTER SYSTEM */
+const filterBtns = document.querySelectorAll(".filter-btn");
+const cards = document.querySelectorAll(".card");
+
+filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const type = btn.dataset.filter;
+
+        cards.forEach(card => {
+            if(type === "all" || card.dataset.type === type){
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+});
+</script>
+
+
+
+
+<script>
+
+
+
+/* =========================================================
+   MAIN PAGE LOGIC
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================================
+       USER DATA
+    ===================================================== */
+
+    const userData =
+        JSON.parse(localStorage.getItem("user"));
+
+
+    /* =====================================================
+       SELECTED DRIVER / GUIDE
+    ===================================================== */
+
+    const driver =
+        localStorage.getItem("selectedDriver");
+
+    const guide =
+        localStorage.getItem("selectedGuide");
+
+    const selectedText =
+        document.getElementById("selectedDriverText");
+
+
+    if (selectedText) {
+
+        if (guide) {
+
+            selectedText.innerText =
+                "Selected Guide: " + guide;
+
+        } else if (driver) {
+
+            selectedText.innerText =
+                "Selected Driver: " + driver;
+
+        } else {
+
+            selectedText.innerText =
+                "Driver / Guide selection is optional";
+        }
+    }
+
+
+    /* =====================================================
+       COST CALCULATION
+    ===================================================== */
+
+    let hotelCost = 0;
+    let resortCost = 0;
+
+    const FOOD_PRICE = 800;
+
+
+    const placeInput =
+        document.getElementById("place");
+
+    const groupInput =
+        document.getElementById("groupSize");
+
+    const daysInput =
+        document.getElementById("days");
+
+    const foodInput =
+        document.getElementById("food");
+
+    const stayInput =
+        document.getElementById("stay");
+
+    const totalDisplay =
+        document.getElementById("totalCost");
+
+    const foodCostDisplay =
+        document.getElementById("foodCostDisplay");
+
+    const stayCostDisplay =
+        document.getElementById("stayCostDisplay");
+
+
+    /* =====================================================
+       GET DESTINATION PRICE FROM MYSQL
+    ===================================================== */
+
+    async function loadDestinationPrices() {
+
+        const place =
+            placeInput.value;
+
+
+        if (!place) {
+
+            hotelCost = 0;
+            resortCost = 0;
+
+            calculateCost();
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost/pocket_tour/api/get_destination.php?place=" +
+                    encodeURIComponent(place)
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP error " + response.status
+                );
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                alert(
+                    "❌ " + data.msg
+                );
+
+                hotelCost = 0;
+                resortCost = 0;
+
+                calculateCost();
+
+                return;
+            }
+
+
+            hotelCost =
+                Number(data.hotel_cost) || 0;
+
+            resortCost =
+                Number(data.resort_cost) || 0;
+
+
+            /* =============================================
+               UPDATE HOTEL OPTION
+            ============================================= */
+
+            const hotelOption =
+                stayInput.querySelector(
+                    'option[value="Hotel"]'
+                );
+
+
+            if (hotelOption) {
+
+                hotelOption.textContent =
+                    "Hotel — ৳" +
+                    hotelCost.toLocaleString() +
+                    "/person/day";
+            }
+
+
+            /* =============================================
+               UPDATE RESORT OPTION
+            ============================================= */
+
+            const resortOption =
+                stayInput.querySelector(
+                    'option[value="Resort"]'
+                );
+
+
+            if (resortOption) {
+
+                resortOption.textContent =
+                    "Resort — ৳" +
+                    resortCost.toLocaleString() +
+                    "/person/day";
+            }
+
+
+            calculateCost();
+
+
+        } catch (error) {
+
+            console.error(
+                "Destination price error:",
+                error
+            );
+
+
+            hotelCost = 0;
+            resortCost = 0;
+
+            calculateCost();
+
+
+            alert(
+                "❌ Unable to load destination pricing.\n\n" +
+                "Please make sure XAMPP Apache and MySQL are running."
+            );
+        }
+    }
+
+
+    /* =====================================================
+       CALCULATE TOTAL COST
+    ===================================================== */
+
+    function calculateCost() {
+
+        const group =
+            parseInt(groupInput.value) || 0;
+
+        const days =
+            parseInt(daysInput.value) || 0;
+
+
+        /* =================================================
+           FOOD COST
+        ================================================= */
+
+        let foodPerPersonDay = 0;
+
+
+        if (foodInput.value === "Yes") {
+
+            foodPerPersonDay =
+                FOOD_PRICE;
+        }
+
+
+        /* =================================================
+           ACCOMMODATION COST
+        ================================================= */
+
+        let stayPerPersonDay = 0;
+
+
+        if (stayInput.value === "Hotel") {
+
+            stayPerPersonDay =
+                hotelCost;
+
+        } else if (stayInput.value === "Resort") {
+
+            stayPerPersonDay =
+                resortCost;
+        }
+
+
+        /* =================================================
+           TOTAL
+        ================================================= */
+
+        const total =
+            group *
+            days *
+            (
+                foodPerPersonDay +
+                stayPerPersonDay
+            );
+
+
+        /* =================================================
+           BREAKDOWN
+        ================================================= */
+
+        const foodTotal =
+            group *
+            days *
+            foodPerPersonDay;
+
+
+        const stayTotal =
+            group *
+            days *
+            stayPerPersonDay;
+
+
+        foodCostDisplay.innerText =
+            "৳" +
+            foodTotal.toLocaleString();
+
+
+        stayCostDisplay.innerText =
+            "৳" +
+            stayTotal.toLocaleString();
+
+
+        totalDisplay.innerText =
+            "৳" +
+            total.toLocaleString();
+    }
+
+
+    /* =====================================================
+       DESTINATION CHANGE
+    ===================================================== */
+
+    placeInput.addEventListener(
+        "change",
+        async function () {
+
+            await loadDestinationPrices();
+
+            calculateCost();
+        }
+    );
+
+
+    /* =====================================================
+       GROUP SIZE CHANGE
+    ===================================================== */
+
+    groupInput.addEventListener(
+        "input",
+        calculateCost
+    );
+
+
+    /* =====================================================
+       DAYS CHANGE
+    ===================================================== */
+
+    daysInput.addEventListener(
+        "input",
+        calculateCost
+    );
+
+
+    /* =====================================================
+       FOOD CHANGE
+    ===================================================== */
+
+    foodInput.addEventListener(
+        "change",
+        calculateCost
+    );
+
+
+    /* =====================================================
+       STAY CHANGE
+    ===================================================== */
+
+    stayInput.addEventListener(
+        "change",
+        calculateCost
+    );
+
+
+    /* =====================================================
+       AUTO FILL USER INFORMATION
+    ===================================================== */
+
+    if (userData) {
+
+        document.getElementById("name").value =
+            userData.name || "";
+
+        document.getElementById("email").value =
+            userData.email || "";
+    }
+
+
+    /* =====================================================
+       NAVBAR USER AREA
+    ===================================================== */
+
+    const userArea =
+        document.getElementById("userArea");
+
+
+    if (userArea) {
+
+        if (userData) {
+
+            userArea.innerHTML = `
+                <span
+                    style="cursor:pointer; font-weight:600;"
+                    onclick="goProfile()"
+                >
+                    👤 ${userData.name}
+                </span>
+            `;
+
+        } else {
+
+            userArea.innerHTML = `
+                <a href="login06.html">
+                    Log In
+                </a>
+
+                <a href="signup.html">
+                    Sign Up
+                </a>
+            `;
+        }
+    }
+
+
+    /* =====================================================
+       REQUEST PLAN
+    ===================================================== */
+
+    const travelForm =
+        document.getElementById("travelForm");
+
+
+    if (travelForm) {
+
+        travelForm.addEventListener(
+            "submit",
+            async function (e) {
+
+                e.preventDefault();
+
+
+                /* ==========================================
+                   CHECK LOGIN
+                ========================================== */
+
+                const currentUser =
+                    JSON.parse(
+                        localStorage.getItem("user")
+                    );
+
+
+                if (!currentUser) {
+
+                    alert(
+                        "⚠️ Please login or sign up to request your travel plan."
+                    );
+
+                    window.location.href =
+                        "login06.html";
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   GET FORM VALUES
+                ========================================== */
+
+                const name =
+                    document
+                        .getElementById("name")
+                        .value
+                        .trim();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const phone =
+                    document
+                        .getElementById("phone")
+                        .value
+                        .trim();
+
+
+                const place =
+                    document
+                        .getElementById("place")
+                        .value;
+
+
+                const persons =
+                    document
+                        .getElementById("groupSize")
+                        .value;
+
+
+                const date =
+                    document
+                        .getElementById("travelDate")
+                        .value;
+
+
+                const days =
+                    document
+                        .getElementById("days")
+                        .value;
+
+
+                const food =
+                    document
+                        .getElementById("food")
+                        .value;
+
+
+                const stay =
+                    document
+                        .getElementById("stay")
+                        .value;
+
+
+                /* ==========================================
+                   VALIDATION
+                ========================================== */
+
+                if (
+                    !name ||
+                    !email ||
+                    !phone ||
+                    !place ||
+                    !persons ||
+                    !date ||
+                    !days ||
+                    !food ||
+                    !stay
+                ) {
+
+                    alert(
+                        "❌ Please fill all required fields."
+                    );
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   SEND TO PHP + MYSQL
+                ========================================== */
+
+                try {
+
+                    const res =
+                        await fetch(
+                            "http://localhost/pocket_tour/api/create_booking.php",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    name: name,
+
+                                    email: email,
+
+                                    phone: phone,
+
+                                    place: place,
+
+                                    persons: persons,
+
+                                    date: date,
+
+                                    days: days,
+
+                                    food: food,
+
+                                    stay: stay
+
+                                })
+                            }
+                        );
+
+
+                    if (!res.ok) {
+
+                        throw new Error(
+                            "HTTP error " + res.status
+                        );
+                    }
+
+
+                    const data =
+                        await res.json();
+
+
+                    /* ======================================
+                       SUCCESS
+                    ====================================== */
+
+                    if (data.success) {
+
+                        alert(
+                            "✅ " +
+                            data.msg +
+                            "\n\nBooking ID: " +
+                            data.booking_id +
+                            "\nEstimated Cost: ৳" +
+                            Number(
+                                data.total_cost
+                            ).toLocaleString()
+                        );
+
+
+                        /* ==============================
+                           CLEAR SELECTED DRIVER / GUIDE
+                        ============================== */
+
+                        localStorage.removeItem(
+                            "selectedDriver"
+                        );
+
+                        localStorage.removeItem(
+                            "selectedGuide"
+                        );
+
+
+                        /* ==============================
+                           UPDATE SELECTED TEXT
+                        ============================== */
+
+                        if (selectedText) {
+
+                            selectedText.innerText =
+                                "Driver / Guide selection is optional";
+                        }
+
+
+                    } else {
+
+                        alert(
+                            "❌ " +
+                            data.msg
+                        );
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Booking error:",
+                        error
+                    );
+
+
+                    alert(
+                        "❌ Unable to connect to the booking server.\n\n" +
+                        "Please make sure XAMPP Apache and MySQL are running."
+                    );
+                }
+
+            }
+        );
+    }
+
+});
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function goProfile() {
+
+    window.location.href =
+        "userprofile.html";
+}
+
+
+/* =========================================================
+   LOGIN STATUS
+========================================================= */
+
+function isLoggedIn() {
+
+    return localStorage.getItem("user") !== null;
+}
+
+</script>
+
+</body>
+</html>

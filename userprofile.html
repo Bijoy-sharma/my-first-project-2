@@ -1,0 +1,3892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Traveler Dashboard | Pocket Tour</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        /* Apply saved theme before paint to avoid a flash of the wrong theme */
+        (function () {
+            try {
+                var saved = localStorage.getItem("pocketTourTheme");
+                if (saved === "dark") {
+                    document.documentElement.setAttribute("data-theme", "dark");
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            --navy-950: #0A1526;
+            --navy-900: #0F2039;
+            --navy-800: #173252;
+
+            --teal-600: #0C7A78;
+            --teal-500: #119693;
+            --teal-400: #3CB5B0;
+            --teal-100: #E1F4F1;
+
+            --amber-600: #B4790A;
+            --amber-500: #D98A1B;
+            --amber-100: #FDF3DE;
+
+            --canvas: #F3F5F9;
+            --surface: #FFFFFF;
+
+            --ink-900: #121B29;
+            --ink-600: #51606F;
+            --ink-400: #8C99A8;
+
+            --border: #E2E7EE;
+
+            --green: #218838;
+            --green-light: #E7F6EC;
+
+            --amber: #B4790A;
+            --amber-light: #FDF3DE;
+
+            --red: #C23B3B;
+            --red-light: #FBEAEA;
+
+            --blue: #3358B8;
+            --blue-light: #EAF0FF;
+
+            --shadow-sm: 0 2px 8px rgba(15, 32, 57, 0.06);
+            --shadow: 0 14px 34px rgba(15, 32, 57, 0.09);
+            --shadow-lg: 0 22px 48px rgba(15, 32, 57, 0.14);
+
+            --radius-sm: 10px;
+            --radius: 18px;
+            --radius-lg: 22px;
+
+            --ease: cubic-bezier(.22, .8, .32, 1);
+
+            color-scheme: light;
+        }
+
+
+        :root[data-theme="dark"] {
+
+            --navy-950: #060D18;
+            --navy-900: #0A1526;
+
+            --canvas: #0B1220;
+            --surface: #101A2C;
+
+            --ink-900: #EDF1F6;
+            --ink-600: #A6B2C2;
+            --ink-400: #748396;
+
+            --border: #213046;
+
+            --teal-100: #113232;
+
+            --green-light: #12301D;
+            --amber-light: #33260C;
+            --red-light: #351717;
+            --blue-light: #131F38;
+
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.28);
+            --shadow: 0 16px 38px rgba(0, 0, 0, 0.38);
+            --shadow-lg: 0 24px 52px rgba(0, 0, 0, 0.48);
+
+            color-scheme: dark;
+        }
+
+
+        body {
+
+            font-family:
+                "Inter",
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: var(--canvas);
+
+            color: var(--ink-900);
+
+            min-height: 100vh;
+
+            font-size: 15px;
+
+            -webkit-font-smoothing: antialiased;
+
+            transition:
+                background .35s var(--ease),
+                color .35s var(--ease);
+        }
+
+
+        h1, h2, h3, .brand-text strong, .trip-card h2 {
+
+            font-family: "Sora", "Inter", sans-serif;
+        }
+
+
+        a { color: inherit; }
+
+
+        /* =====================================================
+           APP
+        ===================================================== */
+
+        .app {
+
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            width: 268px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--navy-950),
+                    var(--navy-900)
+                );
+
+            color: white;
+
+            display: flex;
+
+            flex-direction: column;
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            z-index: 100;
+
+            box-shadow: 4px 0 24px rgba(0,0,0,.12);
+        }
+
+
+        .brand {
+
+            height: 90px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 28px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.08);
+        }
+
+
+        .brand-icon {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(135deg, var(--teal-400), var(--teal-600));
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            margin-right: 13px;
+
+            box-shadow: 0 6px 16px rgba(17,150,147,.35);
+        }
+
+
+        .brand-text strong {
+
+            display: block;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            letter-spacing: .2px;
+        }
+
+
+        .brand-text span {
+
+            display: block;
+
+            margin-top: 4px;
+
+            font-size: 10.5px;
+
+            color: rgba(255,255,255,.55);
+
+            letter-spacing: .7px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-section {
+
+            padding: 28px 16px 12px;
+
+            color: rgba(255,255,255,.4);
+
+            font-size: 10.5px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+        }
+
+
+        .nav {
+
+            padding: 0 12px;
+        }
+
+
+        .nav a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            color: rgba(255,255,255,.68);
+
+            text-decoration: none;
+
+            padding: 12px 14px;
+
+            margin-bottom: 5px;
+
+            border-radius: 10px;
+
+            font-size: 13.5px;
+
+            font-weight: 500;
+
+            position: relative;
+
+            transition:
+                background .25s var(--ease),
+                color .25s var(--ease),
+                transform .25s var(--ease);
+        }
+
+
+        .nav a::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: -12px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 3px;
+
+            height: 0;
+
+            border-radius: 3px;
+
+            background: var(--teal-400);
+
+            transition: height .25s var(--ease);
+        }
+
+
+        .nav a:hover {
+
+            background:
+                rgba(255,255,255,.07);
+
+            color: white;
+
+            transform: translateX(2px);
+        }
+
+
+        .nav a.active {
+
+            background:
+                rgba(17,150,147,.22);
+
+            color: white;
+        }
+
+
+        .nav a.active::before {
+
+            height: 20px;
+        }
+
+
+        .nav-icon {
+
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 15px;
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: auto;
+
+            padding: 16px;
+
+            border-top:
+                1px solid rgba(255,255,255,.08);
+        }
+
+
+        .sidebar-user {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 8px;
+
+            border-radius: 12px;
+
+            transition: background .25s var(--ease);
+        }
+
+
+        .sidebar-user:hover {
+
+            background: rgba(255,255,255,.06);
+        }
+
+
+        .sidebar-avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(135deg, var(--teal-400), var(--teal-600));
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            flex-shrink: 0;
+        }
+
+
+        .sidebar-user strong {
+
+            display: block;
+
+            font-size: 12.5px;
+        }
+
+
+        .sidebar-user span {
+
+            display: block;
+
+            color: rgba(255,255,255,.45);
+
+            font-size: 10.5px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            margin-left: 268px;
+
+            width: calc(100% - 268px);
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+
+            height: 90px;
+
+            background: var(--surface);
+
+            border-bottom:
+                1px solid var(--border);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 50;
+
+            transition:
+                background .35s var(--ease),
+                border-color .35s var(--ease);
+        }
+
+
+        .topbar-heading strong {
+
+            display: block;
+
+            font-size: 19px;
+
+            font-weight: 700;
+        }
+
+
+        .topbar-heading span {
+
+            display: block;
+
+            color: var(--ink-400);
+
+            font-size: 11.5px;
+
+            margin-top: 4px;
+        }
+
+
+        .topbar-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        /* Theme switch --------------------------------------- */
+
+        .theme-switch {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding-right: 18px;
+
+            border-right:
+                1px solid var(--border);
+        }
+
+
+        .theme-switch .icon {
+
+            font-size: 13px;
+
+            color: var(--ink-400);
+        }
+
+
+        .switch {
+
+            position: relative;
+
+            width: 42px;
+            height: 24px;
+
+            flex-shrink: 0;
+        }
+
+
+        .switch input {
+
+            opacity: 0;
+
+            width: 0;
+            height: 0;
+        }
+
+
+        .switch-track {
+
+            position: absolute;
+
+            inset: 0;
+
+            background: #C9D2DE;
+
+            border-radius: 999px;
+
+            cursor: pointer;
+
+            transition: background .3s var(--ease);
+        }
+
+
+        :root[data-theme="dark"] .switch-track {
+
+            background: #2A3A54;
+        }
+
+
+        .switch-track::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 18px;
+            height: 18px;
+
+            left: 3px;
+
+            top: 3px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            box-shadow: 0 2px 5px rgba(0,0,0,.2);
+
+            transition: transform .3s var(--ease);
+        }
+
+
+        .switch input:checked + .switch-track {
+
+            background: var(--teal-500);
+        }
+
+
+        .switch input:checked + .switch-track::before {
+
+            transform: translateX(18px);
+        }
+
+
+        .live-datetime {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding-right: 18px;
+
+            border-right:
+                1px solid var(--border);
+
+            white-space: nowrap;
+        }
+
+
+        .live-time {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .live-dot {
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+
+            box-shadow:
+                0 0 0 3px rgba(33,136,56,.14);
+
+            animation:
+                pulse 2s infinite;
+        }
+
+
+        .live-date {
+
+            color: var(--ink-400);
+
+            font-size: 10.5px;
+
+            font-weight: 600;
+        }
+
+
+        @keyframes pulse {
+
+            0%,100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .4;
+            }
+        }
+
+
+        .top-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 6px 10px 6px 6px;
+
+            border-radius: 12px;
+
+            transition: background .25s var(--ease);
+        }
+
+
+        .top-profile:hover {
+
+            background: var(--canvas);
+        }
+
+
+        .top-avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            background: var(--teal-100);
+
+            color: var(--teal-600);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+
+        .top-profile strong {
+
+            display: block;
+
+            font-size: 12.5px;
+        }
+
+
+        .top-profile span {
+
+            display: block;
+
+            color: var(--ink-400);
+
+            font-size: 10.5px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+
+            padding: 34px;
+
+            max-width: 1360px;
+        }
+
+
+        .eyebrow {
+
+            color: var(--teal-600);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: .4px;
+
+            margin-bottom: 9px;
+        }
+
+
+        .welcome-row {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            margin-bottom: 28px;
+
+            gap: 20px;
+        }
+
+
+        .welcome-row h1 {
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+            letter-spacing: -.6px;
+        }
+
+
+        .welcome-row p {
+
+            color: var(--ink-400);
+
+            font-size: 13px;
+
+            margin-top: 7px;
+        }
+
+
+        .plan-btn {
+
+            border: none;
+
+            background:
+                linear-gradient(135deg, var(--teal-500), var(--teal-600));
+
+            color: white;
+
+            padding: 13px 20px;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            box-shadow: 0 10px 22px rgba(17,150,147,.28);
+
+            transition:
+                transform .2s var(--ease),
+                box-shadow .2s var(--ease),
+                filter .2s var(--ease);
+
+            white-space: nowrap;
+        }
+
+
+        .plan-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 14px 28px rgba(17,150,147,.38);
+
+            filter: brightness(1.04);
+        }
+
+
+        .plan-btn:active {
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           STATS
+        ===================================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0,1fr));
+
+            gap: 18px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .stat-card {
+
+            background: var(--surface);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 22px;
+
+            box-shadow: var(--shadow-sm);
+
+            transition:
+                transform .25s var(--ease),
+                box-shadow .25s var(--ease),
+                border-color .25s var(--ease);
+        }
+
+
+        .stat-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow: var(--shadow);
+
+            border-color: rgba(17,150,147,.25);
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 16px;
+        }
+
+
+        .stat-icon {
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 16px;
+        }
+
+
+        .icon-blue {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+
+        .icon-amber {
+            background: var(--amber-light);
+            color: var(--amber);
+        }
+
+
+        .icon-green {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+
+        .icon-red {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+
+        .stat-card h2 {
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            letter-spacing: -.5px;
+        }
+
+
+        .stat-card p {
+
+            color: var(--ink-400);
+
+            font-size: 11.5px;
+
+            font-weight: 600;
+
+            margin-top: 4px;
+        }
+
+
+        /* =====================================================
+           GRID
+        ===================================================== */
+
+        .main-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.65fr)
+                minmax(300px, .9fr);
+
+            gap: 22px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .panel {
+
+            background: var(--surface);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow-sm);
+
+            overflow: hidden;
+
+            transition:
+                background .35s var(--ease),
+                border-color .35s var(--ease);
+        }
+
+
+        .panel-header {
+
+            padding: 19px 24px;
+
+            border-bottom:
+                1px solid var(--border);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .panel-header h3 {
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        .panel-header span {
+
+            font-size: 11px;
+
+            color: var(--ink-400);
+        }
+
+
+        .panel-body {
+
+            padding: 24px;
+        }
+
+
+        /* =====================================================
+           UPCOMING TRIP
+        ===================================================== */
+
+        .trip-card {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--navy-950),
+                    #1B3D63
+                );
+
+            border-radius: 16px;
+
+            padding: 26px;
+
+            color: white;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .trip-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            border: 34px solid rgba(255,255,255,.045);
+
+            right: -80px;
+
+            top: -90px;
+        }
+
+
+        .trip-label {
+
+            font-size: 10px;
+
+            color: rgba(255,255,255,.55);
+
+            letter-spacing: .6px;
+
+            font-weight: 700;
+        }
+
+
+        .trip-card h2 {
+
+            font-size: 27px;
+
+            font-weight: 700;
+
+            margin-top: 7px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .trip-location {
+
+            color: rgba(255,255,255,.6);
+
+            font-size: 12px;
+
+            margin-top: 4px;
+        }
+
+
+        .trip-info {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 11px;
+
+            margin-top: 24px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .trip-info-box {
+
+            background:
+                rgba(255,255,255,.07);
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            border-radius: 11px;
+
+            padding: 13px;
+
+            transition: background .2s var(--ease);
+        }
+
+
+        .trip-info-box:hover {
+
+            background: rgba(255,255,255,.11);
+        }
+
+
+        .trip-info-box span {
+
+            display: block;
+
+            color: rgba(255,255,255,.48);
+
+            font-size: 10px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .trip-info-box strong {
+
+            font-size: 12.5px;
+
+            font-weight: 700;
+        }
+
+
+        .ready-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 19px;
+
+            padding: 9px 13px;
+
+            border-radius: 9px;
+
+            background:
+                rgba(33,136,56,.18);
+
+            color: #A6EEB6;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ===================================================== */
+
+        .progress {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            position: relative;
+
+            margin-top: 10px;
+        }
+
+
+        .progress::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 20px;
+            right: 20px;
+
+            top: 16px;
+
+            height: 2px;
+
+            background: var(--border);
+
+            z-index: 0;
+        }
+
+
+        .progress-step {
+
+            width: 25%;
+
+            text-align: center;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        .progress-dot {
+
+            width: 32px;
+            height: 32px;
+
+            border-radius: 50%;
+
+            background: var(--canvas);
+
+            color: var(--ink-400);
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            border: 3px solid var(--surface);
+
+            transition:
+                background .3s var(--ease),
+                color .3s var(--ease);
+        }
+
+
+        .progress-step.done .progress-dot {
+
+            background: var(--teal-500);
+
+            color: white;
+        }
+
+
+        .progress-step.waiting .progress-dot {
+
+            background: var(--amber-light);
+
+            color: var(--amber);
+        }
+
+
+        .progress-step span {
+
+            display: block;
+
+            margin-top: 8px;
+
+            font-size: 10px;
+
+            color: var(--ink-400);
+
+            line-height: 1.35;
+        }
+
+
+        .progress-step.done span {
+
+            color: var(--ink-600);
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           PROFILE
+        ===================================================== */
+
+        .profile-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding-bottom: 19px;
+
+            border-bottom:
+                1px solid var(--border);
+
+            margin-bottom: 19px;
+        }
+
+
+        .profile-avatar {
+
+            width: 52px;
+            height: 52px;
+
+            border-radius: 15px;
+
+            background: var(--teal-100);
+
+            color: var(--teal-600);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+
+            font-weight: 800;
+        }
+
+
+        .profile-card strong {
+
+            display: block;
+
+            font-size: 14px;
+        }
+
+
+        .profile-card span {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: var(--ink-400);
+
+            margin-top: 3px;
+        }
+
+
+        .profile-info {
+
+            display: grid;
+
+            gap: 14px;
+        }
+
+
+        .profile-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            font-size: 12px;
+
+            padding: 4px 0;
+        }
+
+
+        .profile-row span {
+
+            color: var(--ink-400);
+        }
+
+
+        .profile-row strong {
+
+            text-align: right;
+
+            font-size: 12px;
+
+            word-break: break-word;
+        }
+
+
+        .role-badge {
+
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 7px;
+
+            background: var(--teal-100);
+
+            color: var(--teal-600);
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           BOOKINGS
+        ===================================================== */
+
+        .booking-table-wrap {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 820px;
+        }
+
+
+        th {
+
+            text-align: left;
+
+            padding: 13px 24px;
+
+            background: var(--canvas);
+
+            color: var(--ink-400);
+
+            font-size: 10.5px;
+
+            letter-spacing: .3px;
+
+            font-weight: 700;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+
+        td {
+
+            padding: 16px 24px;
+
+            border-bottom:
+                1px solid var(--border);
+
+            font-size: 12.5px;
+
+            color: var(--ink-600);
+        }
+
+
+        tbody tr {
+
+            transition: background .18s var(--ease);
+        }
+
+
+        tbody tr:hover {
+
+            background: var(--canvas);
+        }
+
+
+        tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        .destination-name {
+
+            color: var(--ink-900);
+
+            font-weight: 700;
+
+            font-size: 13px;
+        }
+
+
+        .destination-location {
+
+            color: var(--ink-400);
+
+            font-size: 10.5px;
+
+            margin-top: 3px;
+        }
+
+
+        .status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 7px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .status::before {
+
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+
+        .status-pending {
+
+            background: var(--amber-light);
+
+            color: var(--amber);
+        }
+
+
+        .status-approved,
+        .status-accepted {
+
+            background: var(--green-light);
+
+            color: var(--green);
+        }
+
+
+        .status-rejected {
+
+            background: var(--red-light);
+
+            color: var(--red);
+        }
+
+
+        .cost {
+
+            color: var(--ink-900);
+
+            font-weight: 700;
+
+            font-size: 13px;
+        }
+
+
+        .empty {
+
+            padding: 52px 24px;
+
+            text-align: center;
+
+            color: var(--ink-400);
+
+            font-size: 13px;
+        }
+
+
+        .empty strong {
+
+            display: block;
+
+            color: var(--ink-600);
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+        }
+
+
+        .select-again {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-top: 8px;
+
+            padding: 7px 11px;
+
+            border-radius: 7px;
+
+            background: var(--teal-100);
+
+            color: var(--teal-600);
+
+            text-decoration: none;
+
+            font-size: 9.5px;
+
+            font-weight: 800;
+
+            letter-spacing: .3px;
+
+            transition:
+                background .2s var(--ease),
+                transform .2s var(--ease);
+        }
+
+
+        .select-again:hover {
+
+            background: var(--teal-500);
+
+            color: white;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           BOTTOM CARDS
+        ===================================================== */
+
+        .bottom-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 18px;
+        }
+
+
+        .info-card {
+
+            background: var(--surface);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 22px;
+
+            box-shadow: var(--shadow-sm);
+
+            transition:
+                transform .25s var(--ease),
+                box-shadow .25s var(--ease);
+        }
+
+
+        .info-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow: var(--shadow);
+        }
+
+
+        .info-card-icon {
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 10px;
+
+            background: var(--teal-100);
+
+            color: var(--teal-600);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 14px;
+
+            font-size: 15px;
+        }
+
+
+        .info-card h3 {
+
+            font-size: 13.5px;
+
+            font-weight: 700;
+
+            margin-bottom: 6px;
+        }
+
+
+        .info-card p {
+
+            color: var(--ink-400);
+
+            font-size: 11.5px;
+
+            line-height: 1.65;
+        }
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        .toast {
+
+            position: fixed;
+
+            right: 28px;
+
+            bottom: 28px;
+
+            background: var(--navy-950);
+
+            color: white;
+
+            padding: 13px 18px;
+
+            border-radius: 11px;
+
+            font-size: 12px;
+
+            box-shadow: var(--shadow-lg);
+
+            opacity: 0;
+
+            transform: translateY(15px);
+
+            pointer-events: none;
+
+            transition: .25s var(--ease);
+
+            z-index: 999;
+        }
+
+
+        .toast.show {
+
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .main-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-grid {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+        }
+
+
+        @media (max-width: 760px) {
+
+            .sidebar {
+
+                width: 76px;
+            }
+
+            .brand {
+
+                padding: 0;
+
+                justify-content: center;
+            }
+
+            .brand-text,
+            .nav-section,
+            .nav a span:not(.nav-icon),
+            .sidebar-user > div {
+
+                display: none;
+            }
+
+            .nav a {
+
+                justify-content: center;
+
+                padding: 13px;
+            }
+
+            .sidebar-bottom {
+
+                display: flex;
+
+                justify-content: center;
+            }
+
+            .main {
+
+                margin-left: 76px;
+
+                width: calc(100% - 76px);
+            }
+
+            .topbar {
+
+                padding: 0 20px;
+            }
+
+            .live-date {
+
+                display: none;
+            }
+
+            .content {
+
+                padding: 22px;
+            }
+
+            .welcome-row {
+
+                align-items: flex-start;
+
+                gap: 16px;
+
+                flex-direction: column;
+            }
+
+            .trip-info {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .bottom-grid {
+
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 520px) {
+
+            .stats {
+
+                grid-template-columns: 1fr;
+            }
+
+            .top-profile > div:last-child {
+
+                display: none;
+            }
+
+            .theme-switch span.icon:last-child {
+
+                display: none;
+            }
+
+            .welcome-row h1 {
+
+                font-size: 24px;
+            }
+
+            .progress-step span {
+
+                font-size: 8.5px;
+            }
+
+            .panel-body {
+
+                padding: 16px;
+            }
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            * {
+
+                animation-duration: .001ms !important;
+
+                transition-duration: .001ms !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                PT
+            </div>
+
+            <div class="brand-text">
+
+                <strong>Pocket Tour</strong>
+
+                <span>
+                    Traveler Portal
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+            TRAVELER CENTER
+        </div>
+
+
+        <nav class="nav">
+
+            <a
+                href="userprofile.html"
+                class="active"
+            >
+
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="#bookings">
+
+                <span class="nav-icon">▤</span>
+                <span>My Bookings</span>
+
+            </a>
+
+
+            <a href="#upcoming">
+
+                <span class="nav-icon">◷</span>
+                <span>Upcoming Trips</span>
+
+            </a>
+
+
+            <a href="#profile">
+
+                <span class="nav-icon">○</span>
+                <span>My Profile</span>
+
+            </a>
+
+
+            <a href="destination.html">
+
+                <span class="nav-icon">＋</span>
+                <span>Plan a Trip</span>
+
+            </a>
+
+
+            <a href="explore.html">
+
+                <span class="nav-icon">⌕</span>
+                <span>Explore</span>
+
+            </a>
+
+
+            <a href="HOME1.html">
+
+                <span class="nav-icon">⌂</span>
+                <span>Home</span>
+
+            </a>
+
+
+            <a href="#" onclick="logout(); return false;">
+
+                <span class="nav-icon">↪</span>
+                <span>Logout</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <div
+                    class="sidebar-avatar"
+                    id="sidebarAvatar"
+                >
+                    T
+                </div>
+
+                <div>
+
+                    <strong id="sidebarName">
+                        Traveler
+                    </strong>
+
+                    <span>
+                        Traveler Account
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-heading">
+
+                <strong>
+                    Traveler Dashboard
+                </strong>
+
+                <span>
+                    Manage your Pocket Tour journey
+                </span>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <div class="theme-switch">
+
+                    <span class="icon">☀</span>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="themeToggle"
+                        >
+
+                        <span class="switch-track"></span>
+
+                    </label>
+
+                    <span class="icon">☾</span>
+
+                </div>
+
+
+                <div class="live-datetime">
+
+                    <div class="live-time">
+
+                        <span class="live-dot"></span>
+
+                        <span id="liveTime">
+                            00:00:00
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="live-date"
+                        id="liveDate"
+                    >
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="top-profile">
+
+                    <div
+                        class="top-avatar"
+                        id="topAvatar"
+                    >
+                        T
+                    </div>
+
+                    <div>
+
+                        <strong id="topName">
+                            Traveler
+                        </strong>
+
+                        <span>
+                            Traveler
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome-row">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Your travel space
+                    </div>
+
+                    <h1 id="welcomeTitle">
+                        Welcome back
+                    </h1>
+
+                    <p>
+                        Your trips, bookings and travel plans are all in one place.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="destination.html"
+                    class="plan-btn"
+                >
+                    + Plan a New Trip
+                </a>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STATS
+            ================================================== -->
+
+            <div class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <h2 id="totalBookings">
+                                0
+                            </h2>
+
+                            <p>
+                                Total Trips
+                            </p>
+
+                        </div>
+
+                        <div class="stat-icon icon-blue">
+                            ▤
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <h2 id="pendingBookings">
+                                0
+                            </h2>
+
+                            <p>
+                                Pending
+                            </p>
+
+                        </div>
+
+                        <div class="stat-icon icon-amber">
+                            ◷
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <h2 id="approvedBookings">
+                                0
+                            </h2>
+
+                            <p>
+                                Approved
+                            </p>
+
+                        </div>
+
+                        <div class="stat-icon icon-green">
+                            ✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <h2 id="rejectedBookings">
+                                0
+                            </h2>
+
+                            <p>
+                                Rejected
+                            </p>
+
+                        </div>
+
+                        <div class="stat-icon icon-red">
+                            !
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 UPCOMING + PROFILE
+            ================================================== -->
+
+            <div class="main-grid">
+
+
+                <!-- UPCOMING -->
+
+                <div
+                    class="panel"
+                    id="upcoming"
+                >
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Upcoming Trip
+                        </h3>
+
+                        <span id="upcomingLabel">
+                            Your next adventure
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="panel-body"
+                        id="upcomingContainer"
+                    >
+
+                        <div class="empty">
+
+                            <strong>
+                                No upcoming trips
+                            </strong>
+
+                            Plan a trip and your next adventure will appear here.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PROFILE -->
+
+                <div
+                    class="panel"
+                    id="profile"
+                >
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Traveler Profile
+                        </h3>
+
+                        <span>
+                            Account information
+                        </span>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div class="profile-card">
+
+                            <div
+                                class="profile-avatar"
+                                id="profileAvatar"
+                            >
+                                T
+                            </div>
+
+                            <div>
+
+                                <strong id="profileName">
+                                    Traveler
+                                </strong>
+
+                                <span>
+                                    Pocket Tour Traveler
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="profile-info">
+
+                            <div class="profile-row">
+
+                                <span>
+                                    Email
+                                </span>
+
+                                <strong id="profileEmail">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="profile-row">
+
+                                <span>
+                                    Phone
+                                </span>
+
+                                <strong id="profilePhone">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="profile-row">
+
+                                <span>
+                                    Role
+                                </span>
+
+                                <strong>
+                                    <span class="role-badge">
+                                        Traveler
+                                    </span>
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MY BOOKINGS
+            ================================================== -->
+
+            <div
+                class="panel"
+                id="bookings"
+            >
+
+                <div class="panel-header">
+
+                    <h3>
+                        My Bookings
+                    </h3>
+
+                    <span id="bookingCountLabel">
+                        Loading bookings...
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="booking-table-wrap"
+                    id="bookingTableContainer"
+                >
+
+                    <div class="empty">
+
+                        <strong>
+                            Loading your trips...
+                        </strong>
+
+                        Please wait.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CUSTOMER SATISFACTION / INFO
+            ================================================== -->
+
+            <div
+                class="bottom-grid"
+                style="margin-top:22px;"
+            >
+
+
+                <div class="info-card">
+
+                    <div class="info-card-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Your Journey, Organized
+                    </h3>
+
+                    <p>
+                        Keep track of your booking status, accommodation,
+                        food preferences and travel details from one dashboard.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-card-icon">
+                        ◷
+                    </div>
+
+                    <h3>
+                        Stay Updated
+                    </h3>
+
+                    <p>
+                        Your dashboard reflects the latest booking,
+                        driver and guide status available in the system.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-card-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        Ready for Another Trip?
+                    </h3>
+
+                    <p>
+                        Discover a new destination and create your next
+                        travel plan whenever you're ready.
+                    </p>
+
+                    <a
+                        href="destination.html"
+                        class="select-again"
+                        style="margin-top:12px;"
+                    >
+                        Plan a trip
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<script>
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+const user =
+    JSON.parse(
+        localStorage.getItem("user") || "null"
+    );
+
+
+if (!user) {
+
+    window.location.href =
+        "login06.html";
+
+    throw new Error(
+        "Traveler is not logged in."
+    );
+}
+
+
+const userRole =
+    String(user.role || "")
+        .trim()
+        .toLowerCase();
+
+
+if (userRole !== "traveler") {
+
+    alert("Access denied.");
+
+    window.location.href =
+        "login06.html";
+
+    throw new Error(
+        "Traveler access denied."
+    );
+}
+
+
+/* =========================================================
+   THEME SWITCH
+========================================================= */
+
+(function initThemeSwitch() {
+
+    const toggle =
+        document.getElementById("themeToggle");
+
+    const isDark =
+        document.documentElement
+            .getAttribute("data-theme") === "dark";
+
+    toggle.checked = isDark;
+
+    toggle.addEventListener("change", () => {
+
+        if (toggle.checked) {
+
+            document.documentElement
+                .setAttribute("data-theme", "dark");
+
+            localStorage.setItem(
+                "pocketTourTheme",
+                "dark"
+            );
+
+        } else {
+
+            document.documentElement
+                .removeAttribute("data-theme");
+
+            localStorage.setItem(
+                "pocketTourTheme",
+                "light"
+            );
+        }
+    });
+
+})();
+
+
+/* =========================================================
+   HELPER
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function formatMoney(value) {
+
+    return "৳" +
+        Number(value || 0)
+            .toLocaleString("en-BD");
+}
+
+
+function getInitials(name) {
+
+    const parts =
+        String(name || "Traveler")
+            .trim()
+            .split(/\s+/);
+
+    if (parts.length === 1) {
+
+        return parts[0]
+            .substring(0, 1)
+            .toUpperCase();
+    }
+
+    return (
+        parts[0].substring(0, 1) +
+        parts[parts.length - 1]
+            .substring(0, 1)
+    ).toUpperCase();
+}
+
+
+function firstName(name) {
+
+    return String(name || "Traveler")
+        .trim()
+        .split(/\s+/)[0];
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+const initials =
+    getInitials(user.name);
+
+
+document.getElementById(
+    "welcomeTitle"
+).textContent =
+    `Welcome back, ${firstName(user.name)}`;
+
+
+document.getElementById(
+    "topName"
+).textContent =
+    user.name || "Traveler";
+
+
+document.getElementById(
+    "sidebarName"
+).textContent =
+    user.name || "Traveler";
+
+
+document.getElementById(
+    "profileName"
+).textContent =
+    user.name || "Traveler";
+
+
+document.getElementById(
+    "profileEmail"
+).textContent =
+    user.email || "—";
+
+
+document.getElementById(
+    "profilePhone"
+).textContent =
+    user.phone || "Not provided";
+
+
+document.getElementById(
+    "topAvatar"
+).textContent =
+    initials;
+
+
+document.getElementById(
+    "sidebarAvatar"
+).textContent =
+    initials;
+
+
+document.getElementById(
+    "profileAvatar"
+).textContent =
+    initials;
+
+
+/* =========================================================
+   LIVE DATE / TIME
+========================================================= */
+
+function updateDateTime() {
+
+    const now =
+        new Date();
+
+
+    const timeOptions = {
+
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+
+        hour12: true
+    };
+
+
+    const dateOptions = {
+
+        weekday: "long",
+
+        year: "numeric",
+
+        month: "long",
+
+        day: "numeric"
+    };
+
+
+    document.getElementById(
+        "liveTime"
+    ).textContent =
+        now.toLocaleTimeString(
+            "en-US",
+            timeOptions
+        );
+
+
+    document.getElementById(
+        "liveDate"
+    ).textContent =
+        now.toLocaleDateString(
+            "en-US",
+            dateOptions
+        );
+}
+
+
+updateDateTime();
+
+setInterval(
+    updateDateTime,
+    1000
+);
+
+
+/* =========================================================
+   STATUS HELPERS
+========================================================= */
+
+function normalizeStatus(status) {
+
+    return String(status || "")
+        .trim()
+        .toLowerCase();
+}
+
+
+function statusClass(status) {
+
+    const value =
+        normalizeStatus(status);
+
+
+    if (
+        value === "approved" ||
+        value === "accepted"
+    ) {
+
+        return "status-approved";
+    }
+
+
+    if (value === "rejected") {
+
+        return "status-rejected";
+    }
+
+
+    return "status-pending";
+}
+
+
+function statusText(status) {
+
+    const value =
+        normalizeStatus(status);
+
+
+    if (value === "approved") {
+
+        return "Approved";
+    }
+
+
+    if (value === "accepted") {
+
+        return "Accepted";
+    }
+
+
+    if (value === "rejected") {
+
+        return "Rejected";
+    }
+
+
+    return "Pending";
+}
+
+
+/* =========================================================
+   TRIP MESSAGE
+========================================================= */
+
+function getTripMessage(booking) {
+
+    const adminStatus =
+        normalizeStatus(booking.status);
+
+    const driverStatus =
+        normalizeStatus(
+            booking.driverStatus
+        );
+
+    const guideStatus =
+        normalizeStatus(
+            booking.guideStatus
+        );
+
+
+    if (
+        driverStatus === "rejected" ||
+        guideStatus === "rejected"
+    ) {
+
+        return {
+            title:
+                "Action Required",
+
+            text:
+                "A selected service provider rejected this booking. Please select another provider.",
+
+            ready:
+                false
+        };
+    }
+
+
+    if (adminStatus === "rejected") {
+
+        return {
+            title:
+                "Booking Rejected",
+
+            text:
+                "Your travel request was rejected by the administrator.",
+
+            ready:
+                false
+        };
+    }
+
+
+    if (adminStatus === "approved") {
+
+        if (
+            driverStatus === "accepted" &&
+            guideStatus === "accepted"
+        ) {
+
+            return {
+                title:
+                    "Trip Ready",
+
+                text:
+                    "Your booking, driver and guide are all confirmed.",
+
+                ready:
+                    true
+            };
+        }
+
+
+        if (driverStatus !== "accepted") {
+
+            return {
+                title:
+                    "Waiting for Driver",
+
+                text:
+                    "Your trip is approved. Driver confirmation is still pending.",
+
+                ready:
+                    false
+            };
+        }
+
+
+        if (guideStatus !== "accepted") {
+
+            return {
+                title:
+                    "Waiting for Guide",
+
+                text:
+                    "Your trip is approved. Guide confirmation is still pending.",
+
+                ready:
+                    false
+            };
+        }
+    }
+
+
+    return {
+        title:
+            "Booking Requested",
+
+        text:
+            "Your travel request is currently being reviewed.",
+
+        ready:
+            false
+    };
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function renderProgress(booking) {
+
+    const admin =
+        normalizeStatus(booking.status);
+
+    const driver =
+        normalizeStatus(
+            booking.driverStatus
+        );
+
+    const guide =
+        normalizeStatus(
+            booking.guideStatus
+        );
+
+
+    const adminDone =
+        admin === "approved";
+
+
+    const driverDone =
+        driver === "accepted";
+
+
+    const guideDone =
+        guide === "accepted";
+
+
+    return `
+
+        <div class="progress">
+
+            <div class="
+                progress-step
+                ${adminDone ? "done" : ""}
+                ${admin === "rejected" ? "waiting" : ""}
+            ">
+
+                <div class="progress-dot">
+                    ${adminDone ? "✓" : "1"}
+                </div>
+
+                <span>
+                    Booking<br>
+                    Requested
+                </span>
+
+            </div>
+
+
+            <div class="
+                progress-step
+                ${adminDone ? "done" : ""}
+            ">
+
+                <div class="progress-dot">
+                    ${adminDone ? "✓" : "2"}
+                </div>
+
+                <span>
+                    Admin<br>
+                    Review
+                </span>
+
+            </div>
+
+
+            <div class="
+                progress-step
+                ${driverDone ? "done" : "waiting"}
+            ">
+
+                <div class="progress-dot">
+                    ${driverDone ? "✓" : "3"}
+                </div>
+
+                <span>
+                    Driver<br>
+                    ${driver === "rejected"
+                        ? "Rejected"
+                        : driverDone
+                            ? "Accepted"
+                            : "Waiting"}
+                </span>
+
+            </div>
+
+
+            <div class="
+                progress-step
+                ${guideDone ? "done" : "waiting"}
+            ">
+
+                <div class="progress-dot">
+                    ${guideDone ? "✓" : "4"}
+                </div>
+
+                <span>
+                    Guide<br>
+                    ${guide === "rejected"
+                        ? "Rejected"
+                        : guideDone
+                            ? "Accepted"
+                            : "Waiting"}
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   UPCOMING TRIP
+========================================================= */
+
+function renderUpcoming(bookings) {
+
+    const container =
+        document.getElementById(
+            "upcomingContainer"
+        );
+
+
+    if (!bookings.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <strong>
+                    No upcoming trips
+                </strong>
+
+                Start planning your next adventure today.
+
+                <br><br>
+
+                <a
+                    href="destination.html"
+                    class="plan-btn"
+                >
+                    Plan a Trip
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const today =
+        new Date();
+
+    today.setHours(
+        0, 0, 0, 0
+    );
+
+
+    const upcoming =
+        bookings
+            .filter(b => {
+
+                const date =
+                    new Date(
+                        b.date
+                    );
+
+                return !isNaN(date) &&
+                    date >= today &&
+                    normalizeStatus(b.status)
+                        !== "rejected";
+            })
+            .sort(
+                (a,b) =>
+                    new Date(a.date) -
+                    new Date(b.date)
+            );
+
+
+    const booking =
+        upcoming.length
+            ? upcoming[0]
+            : bookings[0];
+
+
+    const message =
+        getTripMessage(booking);
+
+
+    container.innerHTML = `
+
+        <div class="trip-card">
+
+            <div class="trip-label">
+                NEXT ADVENTURE
+            </div>
+
+
+            <h2>
+                ${escapeHTML(booking.place)}
+            </h2>
+
+
+            <div class="trip-location">
+                ${escapeHTML(booking.location || "Bangladesh")}
+            </div>
+
+
+            <div class="trip-info">
+
+
+                <div class="trip-info-box">
+
+                    <span>
+                        Travel Date
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(booking.date)}
+                    </strong>
+
+                </div>
+
+
+                <div class="trip-info-box">
+
+                    <span>
+                        Travelers
+                    </span>
+
+                    <strong>
+                        ${booking.persons}
+                    </strong>
+
+                </div>
+
+
+                <div class="trip-info-box">
+
+                    <span>
+                        Duration
+                    </span>
+
+                    <strong>
+                        ${booking.days} Days
+                    </strong>
+
+                </div>
+
+
+                <div class="trip-info-box">
+
+                    <span>
+                        Estimated Cost
+                    </span>
+
+                    <strong>
+                        ${formatMoney(
+                            booking.totalCost
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="ready-badge">
+
+                ${message.ready
+                    ? "✓"
+                    : "◷"}
+
+                ${message.title}
+
+            </div>
+
+        </div>
+
+
+        <div style="
+            margin-top:22px;
+            margin-bottom:10px;
+            font-size:11.5px;
+            font-weight:700;
+            color:var(--ink-900);
+        ">
+            Trip progress
+        </div>
+
+
+        ${renderProgress(booking)}
+
+
+        <div style="
+            margin-top:22px;
+            padding:14px 16px;
+            background:var(--canvas);
+            border-radius:12px;
+            font-size:11px;
+            color:var(--ink-600);
+            line-height:1.65;
+        ">
+
+            <strong style="
+                color:var(--ink-900);
+                display:block;
+                margin-bottom:4px;
+                font-size:12px;
+            ">
+                ${message.title}
+            </strong>
+
+            ${message.text}
+
+            ${
+                (
+                    normalizeStatus(
+                        booking.driverStatus
+                    ) === "rejected" ||
+                    normalizeStatus(
+                        booking.guideStatus
+                    ) === "rejected"
+                )
+                ? `
+                    <br>
+                    <a
+                        href="destination.html"
+                        class="select-again"
+                    >
+                        Select again
+                    </a>
+                `
+                : ""
+            }
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   BOOKINGS TABLE
+========================================================= */
+
+function renderBookings(bookings) {
+
+    const container =
+        document.getElementById(
+            "bookingTableContainer"
+        );
+
+
+    document.getElementById(
+        "bookingCountLabel"
+    ).textContent =
+        `${bookings.length} booking${
+            bookings.length === 1 ? "" : "s"
+        }`;
+
+
+    if (!bookings.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <strong>
+                    No bookings yet
+                </strong>
+
+                You haven't created a travel plan yet.
+
+                <br><br>
+
+                <a
+                    href="destination.html"
+                    class="plan-btn"
+                >
+                    Plan Your First Trip
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Destination
+                    </th>
+
+                    <th>
+                        Travel Date
+                    </th>
+
+                    <th>
+                        Travelers
+                    </th>
+
+                    <th>
+                        Accommodation
+                    </th>
+
+                    <th>
+                        Admin
+                    </th>
+
+                    <th>
+                        Driver
+                    </th>
+
+                    <th>
+                        Guide
+                    </th>
+
+                    <th>
+                        Cost
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    bookings.forEach(
+        booking => {
+
+            const driverRejected =
+                normalizeStatus(
+                    booking.driverStatus
+                ) === "rejected";
+
+
+            const guideRejected =
+                normalizeStatus(
+                    booking.guideStatus
+                ) === "rejected";
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+
+                        <div class="destination-name">
+                            ${escapeHTML(
+                                booking.place
+                            )}
+                        </div>
+
+                        <div class="destination-location">
+                            ${escapeHTML(
+                                booking.location || "Bangladesh"
+                            )}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(
+                            booking.date
+                        )}
+                    </td>
+
+
+                    <td>
+                        ${booking.persons}
+                        person${
+                            booking.persons === 1
+                                ? ""
+                                : "s"
+                        }
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            booking.stay
+                        )}
+
+                        <div style="
+                            color:var(--ink-400);
+                            font-size:10px;
+                            margin-top:3px;
+                        ">
+                            Food:
+                            ${escapeHTML(
+                                booking.food
+                            )}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="
+                            status
+                            ${statusClass(
+                                booking.status
+                            )}
+                        ">
+                            ${statusText(
+                                booking.status
+                            )}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="
+                            status
+                            ${statusClass(
+                                booking.driverStatus
+                            )}
+                        ">
+                            ${statusText(
+                                booking.driverStatus
+                            )}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="
+                            status
+                            ${statusClass(
+                                booking.guideStatus
+                            )}
+                        ">
+                            ${statusText(
+                                booking.guideStatus
+                            )}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="cost">
+                            ${formatMoney(
+                                booking.totalCost
+                            )}
+                        </div>
+
+
+                        ${
+                            driverRejected ||
+                            guideRejected
+                            ? `
+                                <a
+                                    href="destination.html"
+                                    class="select-again"
+                                >
+                                    Select again
+                                </a>
+                            `
+                            : ""
+                        }
+
+                    </td>
+
+                </tr>
+
+            `;
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    container.innerHTML =
+        html;
+}
+
+
+/* =========================================================
+   LOAD BOOKINGS
+========================================================= */
+
+async function loadMyBookings() {
+
+    try {
+
+        const response =
+            await fetch(
+                `../api/traveler_bookings.php?email=${encodeURIComponent(
+                    user.email
+                )}`,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.msg ||
+                "Unable to load bookings."
+            );
+        }
+
+
+        const bookings =
+            Array.isArray(data.bookings)
+                ? data.bookings
+                : [];
+
+
+        /* ---------------------------------------------
+           STATISTICS
+        --------------------------------------------- */
+
+        const total =
+            bookings.length;
+
+
+        const pending =
+            bookings.filter(
+                b =>
+                    normalizeStatus(
+                        b.status
+                    ) === "pending"
+            ).length;
+
+
+        const approved =
+            bookings.filter(
+                b =>
+                    normalizeStatus(
+                        b.status
+                    ) === "approved"
+            ).length;
+
+
+        const rejected =
+            bookings.filter(
+                b =>
+                    normalizeStatus(
+                        b.status
+                    ) === "rejected"
+            ).length;
+
+
+        document.getElementById(
+            "totalBookings"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "pendingBookings"
+        ).textContent =
+            pending;
+
+
+        document.getElementById(
+            "approvedBookings"
+        ).textContent =
+            approved;
+
+
+        document.getElementById(
+            "rejectedBookings"
+        ).textContent =
+            rejected;
+
+
+        /* ---------------------------------------------
+           RENDER
+        --------------------------------------------- */
+
+        renderBookings(
+            bookings
+        );
+
+
+        renderUpcoming(
+            bookings
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Traveler booking error:",
+            error
+        );
+
+
+        document.getElementById(
+            "bookingTableContainer"
+        ).innerHTML = `
+
+            <div class="empty">
+
+                <strong>
+                    Unable to load bookings
+                </strong>
+
+                Please make sure the Pocket Tour server
+                and database are running.
+
+            </div>
+
+        `;
+
+
+        document.getElementById(
+            "upcomingContainer"
+        ).innerHTML = `
+
+            <div class="empty">
+
+                <strong>
+                    Booking information unavailable
+                </strong>
+
+                Please refresh the page and try again.
+
+            </div>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "user"
+    );
+
+    localStorage.removeItem(
+        "selectedDriver"
+    );
+
+    localStorage.removeItem(
+        "selectedGuide"
+    );
+
+
+    window.location.href =
+        "login06.html";
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadMyBookings();
+
+</script>
+
+
+</body>
+
+</html>

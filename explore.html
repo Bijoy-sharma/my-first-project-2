@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore | Pocket Tour</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* BACKGROUND */
+body{
+    color:white;
+    background:
+    linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+/* SECTION */
+.section{
+    padding:80px 10%;
+    text-align:center;
+}
+
+/* TITLE */
+h1{
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    opacity:0.8;
+    margin-bottom:50px;
+}
+
+/* GROUP TITLE */
+.group-title{
+    text-align:left;
+    margin:40px 0 20px;
+    font-size:1.5rem;
+    opacity:0.9;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+/* CARD */
+.card{
+    position:relative;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border-radius:20px;
+    padding:30px;
+    cursor:pointer;
+    overflow:hidden;
+    transition:0.3s;
+}
+
+/* GLOW BORDER */
+.card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:20px;
+    padding:1px;
+
+    background:linear-gradient(135deg,#38bdf8,transparent);
+
+    /* Webkit */
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+
+    /* Standard (fix warning) */
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+}
+
+
+
+/* HOVER */
+.card:hover{
+    transform:translateY(-10px) scale(1.03);
+    box-shadow:0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* ICON */
+.icon{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+/* TEXT */
+.card p{
+    font-size:0.9rem;
+    opacity:0.8;
+}
+
+/* BUTTON */
+.btn{
+    margin-top:15px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#38bdf8;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px rgba(56,189,248,0.7);
+}
+
+/* ANIMATION */
+.fade-up{
+    animation:fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(40px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .section{
+        padding:60px 5%;
+    }
+}
+
+
+/* NAVBAR CONTAINER */
+.navbar{
+position: fixed;
+top:0;
+width:100%;
+z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 8%;
+
+background: rgba(15, 23, 42, 0.7);
+backdrop-filter: blur(12px);
+
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+.logo{
+font-size:1.5rem;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.nav-menu a{
+text-decoration:none;
+color:white;
+font-size:0.9rem;
+position:relative;
+transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#38bdf8;
+transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+position:absolute;
+top:35px;
+left:0;
+
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(10px);
+
+border-radius:10px;
+padding:10px 0;
+
+display:none;
+flex-direction:column;
+min-width:150px;
+}
+
+.dropdown-content a{
+padding:10px 15px;
+display:block;
+}
+
+.dropdown-content a:hover{
+background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+/* LOGIN */
+.nav-right a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+/* SIGNUP BUTTON */
+.btn-signup{
+padding:8px 18px;
+border-radius:20px;
+background:#38bdf8;
+color:white !important;
+transition:0.3s;
+}
+
+.btn-signup:hover{
+background:#0ea5e9;
+transform:scale(1.05);
+}
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.nav-menu{
+display:none;
+}
+
+.navbar{
+padding:15px 5%;
+}
+
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+<div class="logo">POCKET<span>TOUR</span></div>
+
+<nav class="nav-menu">
+<a href="HOME1.html">Home</a>
+<a href="destination.html">Destinations</a>
+<a href="Package.html">Packages</a>
+<a href="Contact.html">Contact</a>
+<a href="whyus.html">Why Us?</a>
+
+<div class="dropdown">
+<a href="#">Services ▾</a>
+<div class="dropdown-content">
+<a href="explore.html">Explore</a>
+<a href="localtransport.html">Transport</a>
+<a href="travelsuggestion.html">Suggestion</a>
+</div>
+</div>
+</nav>
+
+<div class="nav-right">
+<a href="login06.html">Log In</a>
+<a href="signup.html" class="btn-signup">Sign Up</a>
+</div>
+
+</header>
+
+
+
+
+
+<section class="section fade-up">
+
+<h1>Explore Your Journey</h1>
+<p class="subtitle">Everything you need — step by step</p>
+
+<!-- START -->
+<h2 class="group-title">Start Your Trip</h2>
+<div class="grid">
+
+<div class="card" onclick="goTo('destination.html')">
+<div class="icon">📍</div>
+<h3>Explore Destinations</h3>
+<p>Discover beautiful places across Bangladesh</p>
+<button class="btn">Explore</button>
+</div>
+
+<div class="card" onclick="goTo('travelsuggestion.html')">
+<div class="icon">🧠</div>
+<h3>Smart Suggestion</h3>
+<p>Get trip ideas based on your budget & plan</p>
+<button class="btn">Get Suggestion</button>
+</div>
+
+</div>
+
+<!-- PLAN -->
+<h2 class="group-title">Plan Your Trip</h2>
+<div class="grid">
+
+<div class="card" onclick="goTo('Package.html')">
+<div class="icon">📦</div>
+<h3>Travel Packages</h3>
+<p>Choose best offers & deals</p>
+<button class="btn">View Packages</button>
+</div>
+
+<div class="card" onclick="goTo('localtransport.html')">
+<div class="icon">🚐</div>
+<h3>Local Transport & Guides</h3>
+<p>Find drivers, bikes & local experts</p>
+<button class="btn">Find Now</button>
+</div>
+
+</div>
+
+<!-- COMMUNITY -->
+<h2 class="group-title">Community & Support</h2>
+<div class="grid">
+
+<div class="card" onclick="goTo('moment.html')">
+<div class="icon">📸</div>
+<h3>Traveler Moments</h3>
+<p>See real travel experiences</p>
+<button class="btn">View Moments</button>
+</div>
+
+<div class="card" onclick="goTo('Contact.html')">
+<div class="icon">📞</div>
+<h3>Contact Support</h3>
+<p>Talk to travel experts anytime</p>
+<button class="btn">Contact</button>
+</div>
+
+</div>
+
+</section>
+
+<script>
+function goTo(page){
+    window.location.href = page;
+}
+</script>
+
+</body>
+</html>
