@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pocket Tour | Why Choose Us</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* SAME BACKGROUND */
+body{
+    color:white;
+    background:
+    linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+/* SECTION */
+.section{
+    padding:80px 10%;
+    text-align:center;
+}
+
+/* TITLE */
+.section h1{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+.subtitle{
+    opacity:0.8;
+    margin-bottom:50px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:25px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.02);
+}
+
+/* ICON */
+.icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+/* TITLE */
+.card h3{
+    margin-bottom:10px;
+}
+
+/* TEXT */
+.card p{
+    font-size:0.9rem;
+    opacity:0.8;
+}
+
+
+/* NAVBAR CONTAINER */
+.navbar{
+position: fixed;
+top:0;
+width:100%;
+z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 8%;
+
+background: rgba(15, 23, 42, 0.7);
+backdrop-filter: blur(12px);
+
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+.logo{
+font-size:1.5rem;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.nav-menu a{
+text-decoration:none;
+color:white;
+font-size:0.9rem;
+position:relative;
+transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#38bdf8;
+transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+position:absolute;
+top:35px;
+left:0;
+
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(10px);
+
+border-radius:10px;
+padding:10px 0;
+
+display:none;
+flex-direction:column;
+min-width:150px;
+}
+
+.dropdown-content a{
+padding:10px 15px;
+display:block;
+}
+
+.dropdown-content a:hover{
+background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+/* LOGIN */
+.nav-right a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+/* SIGNUP BUTTON */
+.btn-signup{
+padding:8px 18px;
+border-radius:20px;
+background:#38bdf8;
+color:white !important;
+transition:0.3s;
+}
+
+.btn-signup:hover{
+background:#0ea5e9;
+transform:scale(1.05);
+}
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.nav-menu{
+display:none;
+}
+
+.navbar{
+padding:15px 5%;
+}
+
+}
+
+
+
+
+
+
+</style>
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+<div class="logo">POCKET<span>TOUR</span></div>
+
+<nav class="nav-menu">
+<a href="HOME1.html">Home</a>
+<a href="destination.html">Destinations</a>
+<a href="Package.html">Packages</a>
+<a href="Contact.html">Contact</a>
+<a href="whyus.html">Why Us?</a>
+
+<div class="dropdown">
+<a href="#">Services ▾</a>
+<div class="dropdown-content">
+<a href="explore.html">Explore</a>
+<a href="localtransport.html">Transport</a>
+<a href="travelsuggestion.html">Suggestion</a>
+</div>
+</div>
+</nav>
+
+<div class="nav-right">
+<a href="login06.html">Log In</a>
+<a href="signup.html" class="btn-signup">Sign Up</a>
+</div>
+
+</header>
+
+
+<section class="section">
+
+<h1>Why Choose Pocket Tour?</h1>
+<p class="subtitle">We make your travel safe, affordable & unforgettable</p>
+
+<div class="grid">
+
+<!-- SAFETY -->
+<div class="card">
+<div class="icon">🛡️</div>
+<h3>Safe & Secure Travel</h3>
+<p>Verified hotels, trusted transport & 24/7 emergency support for a worry-free journey.</p>
+</div>
+
+<!-- AFFORDABLE -->
+<div class="card">
+<div class="icon">💰</div>
+<h3>Budget Friendly</h3>
+<p>Special student discounts, group offers & affordable packages for everyone.</p>
+</div>
+
+<!-- SMART -->
+<div class="card">
+<div class="icon">🧠</div>
+<h3>Smart Suggestions</h3>
+<p>Get personalized travel recommendations based on your budget and preferences.</p>
+</div>
+
+<!-- LOCAL -->
+<div class="card">
+<div class="icon">📍</div>
+<h3>Local Expertise</h3>
+<p>Explore hidden gems and authentic places guided by local experts.</p>
+</div>
+
+<!-- VEHICLE -->
+<div class="card">
+<div class="icon">🚐</div>
+<h3>Transport Support</h3>
+<p>Reliable vehicle service including bus, car & group transport arrangements.</p>
+</div>
+
+<!-- GUIDE -->
+<div class="card">
+<div class="icon">🧑‍🏫</div>
+<h3>Tour Guide Support</h3>
+<p>Professional tour guides to help you explore safely and enjoy every moment.</p>
+</div>
+
+<!-- EASY -->
+<div class="card">
+<div class="icon">⚡</div>
+<h3>Easy Planning</h3>
+<p>Everything in one place — plan, customize and book your trip easily.</p>
+</div>
+
+<!-- TRUST -->
+<div class="card">
+<div class="icon">⭐</div>
+<h3>Trusted by Travelers</h3>
+<p>Hundreds of happy travelers with high ratings and positive experiences.</p>
+</div>
+
+</div>
+
+</section>
+
+</body>
+</html>

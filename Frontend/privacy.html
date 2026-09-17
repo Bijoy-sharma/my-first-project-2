@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | Pocket Tour</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body{
+    font-family:'Poppins',sans-serif;
+    color:white;
+    background:
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
+    background-size:cover;
+    background-attachment:fixed;
+    padding:80px 10%;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    padding:40px;
+    border-radius:20px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.item{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.icon{
+    font-size:20px;
+    color:#38bdf8;
+}
+
+.text{
+    line-height:1.6;
+    opacity:0.9;
+}
+
+/* NAVBAR CONTAINER */
+.navbar{
+    position: fixed;
+    top:0;
+    left:0;        /* ADD THIS */
+    width:100%;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px 8%;
+
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+}
+
+/* LOGO */
+.logo{
+font-size:1.5rem;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.nav-menu a{
+text-decoration:none;
+color:white;
+font-size:0.9rem;
+position:relative;
+transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#38bdf8;
+transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+position:absolute;
+top:35px;
+left:0;
+
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(10px);
+
+border-radius:10px;
+padding:10px 0;
+
+display:none;
+flex-direction:column;
+min-width:150px;
+}
+
+.dropdown-content a{
+padding:10px 15px;
+display:block;
+}
+
+.dropdown-content a:hover{
+background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+/* LOGIN */
+.nav-right a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+/* SIGNUP BUTTON */
+.btn-signup{
+padding:8px 18px;
+border-radius:20px;
+background:#38bdf8;
+color:white !important;
+transition:0.3s;
+}
+
+.btn-signup:hover{
+background:#0ea5e9;
+transform:scale(1.05);
+}
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.nav-menu{
+display:none;
+}
+}
+
+
+
+
+
+</style>
+</head>
+
+<body>
+    
+
+<header class="navbar">
+
+<div class="logo">POCKET<span>TOUR</span></div>
+
+<nav class="nav-menu">
+<a href="HOME1.html">Home</a>
+<a href="destination.html">Destinations</a>
+<a href="Package.html">Packages</a>
+<a href="Contact.html">Contact</a>
+<a href="whyus.html">Why Us?</a>
+
+<div class="dropdown">
+<a href="#">Services ▾</a>
+<div class="dropdown-content">
+<a href="explore.html">Explore</a>
+<a href="localtransport.html">Transport</a>
+<a href="travelsuggestion.html">Suggestion</a>
+</div>
+</div>
+</nav>
+
+<div class="nav-right">
+<a href="login06.html">Log In</a>
+<a href="signup.html" class="btn-signup">Sign Up</a>
+</div>
+
+</header>
+
+
+
+<div class="container">
+
+<h1><i class="fas fa-user-shield"></i> Privacy Policy</h1>
+
+<div class="item">
+<div class="icon"><i class="fas fa-database"></i></div>
+<div class="text">
+We collect basic data like name and email.<br>
+আমরা নাম ও ইমেইলসহ মৌলিক তথ্য সংগ্রহ করি।
+</div>
+</div>
+
+<div class="item">
+<div class="icon"><i class="fas fa-photo-video"></i></div>
+<div class="text">
+Uploaded photos are stored securely.<br>
+আপলোড করা ছবি নিরাপদভাবে সংরক্ষণ করা হয়।
+</div>
+</div>
+
+<div class="item">
+<div class="icon"><i class="fas fa-cogs"></i></div>
+<div class="text">
+Data is used to improve user experience.<br>
+ব্যবহারকারীর অভিজ্ঞতা উন্নত করতে তথ্য ব্যবহার করা হয়।
+</div>
+</div>
+
+<div class="item">
+<div class="icon"><i class="fas fa-lock"></i></div>
+<div class="text">
+We do not sell your personal data.<br>
+আমরা আপনার ব্যক্তিগত তথ্য বিক্রি করি না।
+</div>
+</div>
+
+<div class="item">
+<div class="icon"><i class="fas fa-cookie-bite"></i></div>
+<div class="text">
+Cookies may be used for better performance.<br>
+উন্নত অভিজ্ঞতার জন্য কুকিজ ব্যবহার করা হতে পারে।
+</div>
+</div>
+
+<div class="item">
+<div class="icon"><i class="fas fa-envelope"></i></div>
+<div class="text">
+We may contact you for support or updates.<br>
+সহায়তা বা আপডেটের জন্য আমরা যোগাযোগ করতে পারি।
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

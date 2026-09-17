@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pocket Tour | Packages</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* BACKGROUND (SAME AS YOUR SITE) */
+body{
+    color:white;
+    background:
+    linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+/* SECTION */
+.section{
+    padding:80px 10%;
+    text-align:center;
+}
+
+/* TITLE */
+h1{
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+.subtitle{
+    opacity:0.8;
+    margin-bottom:40px;
+}
+
+/* OFFER */
+.offer{
+    background:linear-gradient(135deg,#dc94e2a6,#dc2626);
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:30px;
+}
+
+/* COUPON */
+.coupon{
+    margin-bottom:40px;
+}
+
+.coupon input{
+    padding:12px;
+    border-radius:30px;
+    border:none;
+    width:260px;
+}
+
+.coupon button{
+    padding:12px 20px;
+    border-radius:30px;
+    border:none;
+    background:#38bdf8;
+    cursor:pointer;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:25px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+}
+
+/* BADGE */
+.badge{
+    background:#38bdf8;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    display:inline-block;
+    margin-bottom:10px;
+}
+
+/* PRICE */
+.price{
+    margin:15px 0;
+}
+
+.old{
+    text-decoration:line-through;
+    color:gray;
+}
+
+.new{
+    font-size:1.6rem;
+    color:#38bdf8;
+}
+
+/* LIST */
+.card ul{
+    list-style:none;
+    margin:10px 0;
+}
+
+.card li{
+    margin:6px 0;
+}
+
+/* BUTTON */
+.btn{
+    padding:10px 20px;
+    border-radius:20px;
+    border:none;
+    cursor:pointer;
+    margin:5px;
+}
+
+.primary{
+    background:#38bdf8;
+}
+
+.secondary{
+    background:transparent;
+    border:1px solid #38bdf8;
+    color:white;
+}
+
+.primary:hover,.secondary:hover{
+    transform:scale(1.05);
+}
+
+/* NAVBAR CONTAINER */
+.navbar{
+position: fixed;
+top:0;
+width:100%;
+z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 8%;
+
+background: rgba(15, 23, 42, 0.7);
+backdrop-filter: blur(12px);
+
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+.logo{
+font-size:1.5rem;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+/* NAV MENU */
+.nav-menu{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.nav-menu a{
+text-decoration:none;
+color:white;
+font-size:0.9rem;
+position:relative;
+transition:0.3s;
+}
+
+/* UNDERLINE HOVER */
+.nav-menu a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#38bdf8;
+transition:0.3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+position:absolute;
+top:35px;
+left:0;
+
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(10px);
+
+border-radius:10px;
+padding:10px 0;
+
+display:none;
+flex-direction:column;
+min-width:150px;
+}
+
+.dropdown-content a{
+padding:10px 15px;
+display:block;
+}
+
+.dropdown-content a:hover{
+background: rgba(255,255,255,0.1);
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-content{
+display:flex;
+}
+
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+/* LOGIN */
+.nav-right a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+/* SIGNUP BUTTON */
+.btn-signup{
+padding:8px 18px;
+border-radius:20px;
+background:#38bdf8;
+color:white !important;
+transition:0.3s;
+}
+
+.btn-signup:hover{
+background:#0ea5e9;
+transform:scale(1.05);
+}
+/* BODY FIX FOR FIXED NAVBAR */
+body{
+padding-top:80px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.nav-menu{
+display:none;
+}
+
+.navbar{
+padding:15px 5%;
+}
+
+}
+
+
+
+
+
+
+</style>
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+<div class="logo">POCKET<span>TOUR</span></div>
+
+<nav class="nav-menu">
+<a href="HOME1.html">Home</a>
+<a href="destination.html">Destinations</a>
+<a href="Package.html">Packages</a>
+<a href="Contact.html">Contact</a>
+<a href="whyus.html">Why Us?</a>
+
+<div class="dropdown">
+<a href="#">Services ▾</a>
+<div class="dropdown-content">
+<a href="explore.html">Explore</a>
+<a href="localtransport.html">Transport</a>
+<a href="travelsuggestion.html">Suggestion</a>
+</div>
+</div>
+
+<a href="admin1.html" class="admin-btn">Driver / Guide</a>
+</nav>
+
+<div class="nav-right">
+<a href="login06.html">Log In</a>
+<a href="signup.html" class="btn-signup">Sign Up</a>
+</div>
+
+ <div class="nav-right" id="userArea">
+                
+    <!-- Dynamic content will come here -->
+</div>
+
+</header>
+
+
+<section class="section">
+
+<h1>Choose Your Package</h1>
+<p class="subtitle">Affordable, safe & student-friendly travel plans</p>
+
+<div class="offer">
+🔥 Book now & get 15% discount this week
+</div>
+
+<div class="coupon">
+<input type="text" id="coupon" placeholder="Enter Coupon Code">
+<button onclick="applyCoupon()">Apply</button>
+<p id="msg"></p>
+</div>
+
+<div class="grid">
+
+<!-- CARD 1 -->
+<div class="card">
+<span class="badge">Budget</span>
+<h3>Sajek Valley</h3>
+
+<div class="price">
+<span class="old">৳6000</span>
+<span class="new" id="p1">৳4500</span>
+</div>
+
+<ul>
+<li>✔ Transport</li>
+<li>✔ Hotel</li>
+<li>✔ Guide</li>
+</ul>
+
+<button class="btn primary">Book Now</button>
+<button class="btn secondary">Customize</button>
+</div>
+
+<!-- CARD 2 -->
+<div class="card">
+<span class="badge">Popular</span>
+<h3>Cox’s Bazar</h3>
+
+<div class="price">
+<span class="old">৳9000</span>
+<span class="new" id="p2">৳7000</span>
+</div>
+
+<ul>
+<li>✔ Transport</li>
+<li>✔ Hotel</li>
+<li>✔ Breakfast</li>
+</ul>
+
+<button class="btn primary">Book Now</button>
+<button class="btn secondary">Customize</button>
+</div>
+
+<!-- CARD 3 -->
+<div class="card">
+<span class="badge">Premium</span>
+<h3>Saint Martin</h3>
+
+<div class="price">
+<span class="old">৳15000</span>
+<span class="new" id="p3">৳12000</span>
+</div>
+
+<ul>
+<li>✔ Resort</li>
+<li>✔ All Meals</li>
+<li>✔ Private Transport</li>
+</ul>
+
+<button class="btn primary">Book Now</button>
+<button class="btn secondary">Talk to Expert</button>
+</div>
+
+</div>
+
+</section>
+
+<script>
+function applyCoupon(){
+
+let code=document.getElementById("coupon").value;
+let msg=document.getElementById("msg");
+
+if(code==="STUDENT10"){
+document.getElementById("p1").innerText="৳4050";
+document.getElementById("p2").innerText="৳6300";
+document.getElementById("p3").innerText="৳10800";
+msg.innerText="✅ 10% Discount Applied";
+}
+else{
+msg.innerText="❌ Invalid Code";
+}
+}
+</script>
+
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+const userArea = document.getElementById("userArea");
+
+if (user) {
+    userArea.innerHTML = `
+        <span style="cursor:pointer; font-weight:600;" onclick="goProfile()">
+            👤 ${user.name}
+        </span>
+    `;
+} else {
+    userArea.innerHTML = `
+       <a href="login06.html" 
+   style="background: var(--primary-color); color: #333; padding: 10px 25px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: 0.3s;">
+   Log In
+</a>
+
+<a href="signup.html" 
+   style="background: var(--primary-color); color: #333; padding: 10px 25px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: 0.3s;">
+   Sign Up
+</a>
+    `;
+}
+
+function goProfile() {
+    window.location.href = "userprofile.html";
+}
+</script>
+
+<script>
+function isLoggedIn() {
+    return localStorage.getItem("user") !== null;
+}
+</script>
+
+
+</body>
+</html>

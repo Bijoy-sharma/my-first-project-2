@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Booking Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e293b;
+            --accent-color: #0f172a;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: rgba(148, 163, 184, 0.2);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-icon {
+            font-size: 2.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .content-section {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 1.25rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+            transform: scale(1.001);
+            transition: all 0.2s ease;
+        }
+
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+        }
+
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-reject {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            color: white;
+        }
+
+        .btn-reject:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            color: white;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="header">
+        <div class="header-icon">
+            <i class="fas fa-crown"></i>
+        </div>
+        <div>
+            <h1>Admin Dashboard</h1>
+            <p>Manage all bookings efficiently</p>
+        </div>
+    </div>
+          <div class="tabs" style="margin-bottom:20px;">
+    <button onclick="showTab('bookings')">Bookings</button>
+    <button onclick="showTab('users')">Users</button>
+    <button onclick="showTab('drivers')">Drivers</button>
+    <button onclick="showTab('guides')">Guides</button>
+</div>
+
+
+
+
+        <div id="bookings" class="content-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h2>Bookings Management</h2>
+            </div>
+            
+            <div class="table-container">
+
+
+                <table id="bookingTable">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-user"></i> Customer Name</th>
+                            <th><i class="fas fa-map-marker-alt"></i> Destination</th>
+                            <th><i class="fas fa-info-circle"></i> Status</th>
+                            <th><i class="fas fa-cogs"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingTbody">
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                <i class="fas fa-spinner-third"></i>
+                                <div>Loading bookings...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+<!-- USERS -->
+<div id="users" class="content-section" style="display:none;">
+    <h2>Users</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+    </table>
+</div>
+
+<!-- DRIVERS -->
+<div id="drivers" class="content-section" style="display:none;">
+    <h2>Drivers</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="driversTable"></tbody>
+    </table>
+</div>
+
+<!-- GUIDES -->
+<div id="guides" class="content-section" style="display:none;">
+    <h2>Guides</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="guidesTable"></tbody>
+    </table>
+</div>
+
+    </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        // Authentication checks
+        if (!user) {
+            alert("Please login first");
+            window.location.href = "login06.html";
+        } else if (user.role !== "admin") {
+            alert("Access denied ❌");
+            window.location.href = "HOME1.html";
+        }
+
+        // DOM elements
+        const tbody = document.querySelector("#bookingTbody");
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // Load bookings data
+        async function loadBookings()
+ {
+            try {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                Loading bookings...
+                            </div>
+                        </td>
+                    </tr>
+                `;
+
+                const res = await fetch("http://localhost:5000/bookings");
+                const data = await res.json();
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <div>No bookings found</div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = "";
+
+                data.forEach(b => {
+                    const statusClass = b.status === 'approved' ? 'status-approved' : 
+                                      b.status === 'rejected' ? 'status-rejected' : 'status-pending';
+                    
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>
+                                <div style="font-weight: 500;">${b.name}</div>
+                            </td>
+                            <td>
+                                <i class="fas fa-map-marker-alt" style="color: var(--primary-color); margin-right: 0.5rem;"></i>
+                                ${b.place}
+                            </td>
+                            <td>
+                                <span class="status-badge ${statusClass}">${b.status}</span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-approve" onclick="updateStatus('${b._id}','approved')">
+                                        <i class="fas fa-check"></i> Approve
+                                    </button>
+                                    <button class="btn btn-reject" onclick="updateStatus('${b._id}','rejected')">
+                                        <i class="fas fa-times"></i> Reject
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <i class="fas fa-exclamation-triangle" style="color: var(--danger-color);"></i>
+                            <div>Error loading bookings. Please try again.</div>
+                        </td>
+                    </tr>
+                `;
+                showToast('Failed to load bookings', 'error');
+            }
+        }
+
+        // Update booking status
+        async function updateStatus(id, status) {
+            try {
+                await fetch(`http://localhost:5000/book/${id}`, {
+                    method: "PUT",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ status: status })
+                });
+
+                showToast(`Booking ${status} successfully!`, 'success');
+                loadBookings();
+loadUsers();
+loadDrivers();
+loadGuides();
+            } catch (error) {
+                console.error('Error updating status:', error);
+                showToast('Failed to update status', 'error');
+            }
+        }
+
+        // Initialize
+
+
+
+        // Refresh every 30 seconds
+       setInterval(() => {
+    loadBookings();
+    loadUsers();
+    loadDrivers();
+    loadGuides();
+}, 30000);
+    </script>
+    <script>
+
+function showTab(tab){
+    document.getElementById("bookings").style.display = "none";
+    document.getElementById("users").style.display = "none";
+    document.getElementById("drivers").style.display = "none";
+    document.getElementById("guides").style.display = "none";
+
+    document.getElementById(tab).style.display = "block";
+}
+</script>
+
+
+
+<script>
+
+// ================= USERS =================
+async function loadUsers() {
+    try {
+        const res = await fetch("http://localhost:5000/users");
+        const data = await res.json();
+
+        console.log("Users:", data); // DEBUG
+
+        const tbody = document.getElementById("usersTable");
+        tbody.innerHTML = "";
+
+        if (data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3">No users found</td></tr>`;
+            return;
+        }
+
+        data.forEach(u => {
+            tbody.innerHTML += `
+            <tr>
+                <td>${u.name}</td>
+                <td>${u.email}</td>
+                <td>${u.role}</td>
+            </tr>
+            `;
+        });
+
+    } catch (error) {
+        console.error("Users error:", error);
+    }
+}
+
+// ================= DRIVERS =================
+async function loadDrivers() {
+    try {
+        const res = await fetch("http://localhost:5000/drivers");
+        const data = await res.json();
+
+        console.log("Drivers:", data); // DEBUG
+
+        const tbody = document.getElementById("driversTable");
+        tbody.innerHTML = "";
+
+        if (data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="2">No drivers found</td></tr>`;
+            return;
+        }
+
+       data.forEach(d => {
+    tbody.innerHTML += `
+    <tr>
+        <td>${d.name}</td>
+        <td>${d.email}</td>
+        <td>
+            <button onclick="alert('Driver: ${d.email}')">
+                View
+            </button>
+        </td>
+    </tr>
+    `;
+});
+
+    } catch (error) {
+        console.error("Drivers error:", error);
+    }
+}
+
+// ================= GUIDES =================
+async function loadGuides() {
+    try {
+        const res = await fetch("http://localhost:5000/guides");
+        const data = await res.json();
+
+        console.log("Guides:", data); // DEBUG
+
+        const tbody = document.getElementById("guidesTable");
+        tbody.innerHTML = "";
+
+        if (data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="2">No guides found</td></tr>`;
+            return;
+        }
+
+      data.forEach(g => {
+    tbody.innerHTML += `
+    <tr>
+        <td>${g.name}</td>
+        <td>${g.email}</td>
+        <td>
+            <button onclick="alert('Guide: ${g.email}')">
+                View
+            </button>
+        </td>
+    </tr>
+    `;
+});
+
+    } catch (error) {
+        console.error("Guides error:", error);
+    }
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    loadBookings();
+    loadUsers();
+    loadDrivers();
+    loadGuides();
+});
+</script>
+</body>
+</html>

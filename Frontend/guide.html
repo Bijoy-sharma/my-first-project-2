@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Guide Dashboard · Pocket Tour</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --navy-950: #0b1f2b;
+    --navy-800: #12324a;
+    --navy-700: #1a4363;
+    --teal-600: #1f7a6c;
+    --teal-500: #279685;
+    --teal-100: #e3f3ef;
+    --amber-500: #e2984b;
+    --amber-600: #cf7f31;
+    --amber-100: #fbead6;
+    --paper: #f7f5f0;
+    --card: #ffffff;
+    --ink-900: #16232b;
+    --ink-700: #3c4a53;
+    --slate-500: #6b7a84;
+    --slate-300: #d8dfe2;
+    --line: #e6e1d6;
+    --danger: #d1543f;
+    --danger-100: #fbe6e1;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', 'Segoe UI', sans-serif;
+    background: var(--paper);
+    background-image:
+        radial-gradient(circle at 8% 8%, rgba(31, 122, 108, 0.06), transparent 40%),
+        radial-gradient(circle at 92% 15%, rgba(226, 152, 75, 0.08), transparent 45%);
+    color: var(--ink-900);
+    min-height: 100vh;
+    padding: 22px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+h1, h2 {
+    font-family: 'Fraunces', Georgia, serif;
+}
+
+a { color: inherit; }
+
+/* ---------- TOP NAV ---------- */
+
+.top-nav {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto 22px;
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 26px;
+    background: var(--navy-950);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 18px 40px rgba(11, 31, 43, 0.28);
+    color: #f4f1ea;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-mark {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
+    color: #fff;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(31, 122, 108, 0.4);
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.brand-text strong {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.brand-text span {
+    margin-top: 2px;
+    font-size: 11.5px;
+    color: #a9c2bd;
+    letter-spacing: 0.3px;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.main-nav a {
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    color: #cdd9de;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.notification-btn {
+    position: relative;
+    padding: 10px 14px;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e5ece9;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.notification-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.notification-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--amber-500);
+    box-shadow: 0 0 0 2px var(--navy-950);
+}
+
+.user-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--amber-500);
+    color: #2c1a08;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.user-info { display: flex; flex-direction: column; }
+.user-info strong { font-size: 13.5px; color: #ffffff; }
+.user-info span { margin-top: 2px; font-size: 11px; color: #a9c2bd; }
+
+/* ---------- LAYOUT ---------- */
+
+.dashboard-layout {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 246px 1fr;
+    gap: 22px;
+}
+
+.sidebar {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 26px 17px;
+    min-height: calc(100vh - 140px);
+    box-shadow: 0 14px 34px rgba(11, 31, 43, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-title {
+    padding: 4px 14px 16px;
+    color: var(--slate-500);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+}
+
+.sidebar-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 15px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--ink-700);
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background: var(--teal-100);
+    color: var(--teal-600);
+}
+
+.sidebar-link.active {
+    background: linear-gradient(135deg, var(--teal-600), var(--teal-500));
+    color: #ffffff;
+    box-shadow: 0 10px 22px rgba(31, 122, 108, 0.28);
+}
+
+.sidebar-badge {
+    width: 21px;
+    height: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--amber-500);
+    color: #2c1a08;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.logout-link { margin-top: 5px; }
+
+.sidebar-bottom { margin-top: auto; padding-top: 25px; }
+
+.drive-card {
+    padding: 19px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(150deg, var(--teal-100), var(--amber-100));
+    border: 1px solid var(--slate-300);
+}
+
+.drive-card strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    color: var(--navy-700);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.drive-card span, .drive-card small {
+    display: block;
+    margin-top: 5px;
+    color: var(--slate-500);
+    font-size: 11.5px;
+}
+
+.dashboard-main { min-width: 0; }
+
+/* ---------- HEADING ---------- */
+
+.dashboard-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding: 6px;
+}
+
+.dashboard-eyebrow {
+    margin: 0 0 7px;
+    color: var(--teal-600);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.dashboard-heading h1 {
+    margin: 0;
+    color: var(--navy-950);
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.dashboard-heading h1 span { color: var(--teal-600); }
+
+.dashboard-heading p:last-child {
+    margin: 8px 0 0;
+    color: var(--slate-500);
+    font-size: 14.5px;
+}
+
+.today-card {
+    padding: 13px 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    text-align: right;
+}
+
+.today-card span { display: block; color: var(--slate-500); font-size: 11px; }
+.today-card strong {
+    display: block;
+    margin-top: 4px;
+    color: var(--navy-700);
+    font-size: 13.5px;
+    font-weight: 700;
+}
+
+/* ---------- STATS ---------- */
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.dashboard-stat {
+    min-height: 120px;
+    padding: 20px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #ffffff;
+    box-shadow: 0 14px 28px rgba(11, 31, 43, 0.1);
+}
+
+.stat-blue   { background: linear-gradient(135deg, var(--navy-700), var(--navy-800)); }
+.stat-orange { background: linear-gradient(135deg, var(--amber-500), var(--amber-600)); }
+.stat-green  { background: linear-gradient(135deg, var(--teal-500), var(--teal-600)); }
+.stat-red    { background: linear-gradient(135deg, #e0705a, var(--danger)); }
+
+.stat-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.22);
+    font-weight: 800;
+    font-size: 18px;
+    font-family: 'Fraunces', serif;
+}
+
+.dashboard-stat span { display: block; font-size: 12px; opacity: 0.92; font-weight: 600; }
+.dashboard-stat strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 30px;
+    line-height: 1;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+}
+.dashboard-stat small { display: block; margin-top: 8px; font-size: 10.5px; opacity: 0.85; }
+
+/* ---------- GRID ---------- */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.panel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 32px rgba(11, 31, 43, 0.05);
+}
+
+.upcoming-panel, .profile-panel { padding: 24px; }
+
+.panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.panel-label {
+    color: var(--teal-600);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+}
+
+.panel-heading h2 {
+    margin: 6px 0 0;
+    color: var(--navy-950);
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.panel-heading p {
+    margin: 6px 0 0;
+    color: var(--slate-500);
+    font-size: 12.5px;
+}
+
+.trip-badge {
+    padding: 8px 12px;
+    border-radius: 20px;
+    background: var(--teal-100);
+    color: var(--teal-600);
+    font-size: 10.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.upcoming-content { margin-top: 20px; min-height: 105px; }
+
+.upcoming-placeholder {
+    min-height: 105px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 19px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--teal-100), var(--paper));
+    border: 1px dashed var(--slate-300);
+}
+
+.upcoming-placeholder strong {
+    color: var(--navy-700);
+    font-size: 15px;
+    font-family: 'Fraunces', serif;
+}
+
+.upcoming-placeholder span {
+    margin-top: 7px;
+    color: var(--slate-500);
+    font-size: 12.5px;
+}
+
+.profile-content { display: flex; align-items: center; gap: 13px; margin-top: 19px; }
+
+.profile-avatar {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: linear-gradient(135deg, var(--teal-100), var(--amber-100));
+    color: var(--teal-600);
+    font-size: 19px;
+    font-weight: 800;
+    font-family: 'Fraunces', serif;
+}
+
+.profile-info strong { display: block; color: var(--navy-950); font-size: 15px; }
+.profile-info span { display: block; margin-top: 3px; color: var(--slate-500); font-size: 12px; }
+
+.profile-details {
+    margin-top: 19px;
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+}
+
+.profile-details div { display: flex; justify-content: space-between; gap: 15px; padding: 8px 0; }
+.profile-details span { color: var(--slate-500); font-size: 11.5px; }
+.profile-details strong { color: var(--ink-700); font-size: 11.5px; text-align: right; }
+
+/* ---------- BOOKINGS TABLE ---------- */
+
+.bookings-panel { padding: 24px; overflow: hidden; }
+
+.booking-filter {
+    padding: 10px 14px;
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    color: var(--ink-700);
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+}
+
+.table-wrapper { overflow-x: auto; margin-top: 19px; }
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.bookings-panel table {
+    margin-top: 0;
+    background: transparent;
+}
+
+thead { background: var(--navy-950); }
+
+th {
+    padding: 15px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    color: #eef1ee;
+    letter-spacing: 0.4px;
+}
+
+.bookings-panel thead { border-radius: var(--radius-sm); }
+.bookings-panel th:first-child { border-radius: 12px 0 0 12px; }
+.bookings-panel th:last-child { border-radius: 0 12px 12px 0; }
+
+td {
+    padding: 16px 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-700);
+    font-size: 14px;
+}
+
+tr:last-child td { border-bottom: none; }
+
+.bookings-panel tr:hover td { background: var(--teal-100); }
+
+.status {
+    padding: 6px 13px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+.status.pending   { background: var(--amber-100); color: var(--amber-600); }
+.status.accepted  { background: var(--teal-100);  color: var(--teal-600); }
+.status.completed { background: #e4ecf5; color: var(--navy-700); }
+
+button {
+    padding: 10px 18px;
+    margin: 2px;
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12.5px;
+    font-family: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.accept {
+    background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
+    color: white;
+    box-shadow: 0 5px 14px rgba(31, 122, 108, 0.32);
+}
+.accept:hover { transform: translateY(-2px); box-shadow: 0 9px 20px rgba(31, 122, 108, 0.4); }
+
+.reject {
+    background: linear-gradient(135deg, #e0705a, var(--danger));
+    color: white;
+    box-shadow: 0 5px 14px rgba(209, 84, 63, 0.3);
+}
+.reject:hover { transform: translateY(-2px); box-shadow: 0 9px 20px rgba(209, 84, 63, 0.4); }
+
+.done {
+    background: linear-gradient(135deg, var(--navy-700), var(--navy-800));
+    color: white;
+    box-shadow: 0 5px 14px rgba(18, 50, 74, 0.32);
+}
+.done:hover { transform: translateY(-2px); box-shadow: 0 9px 20px rgba(18, 50, 74, 0.4); }
+
+.no-data, .loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--slate-500);
+    font-size: 14.5px;
+}
+
+.booking-footer { padding-top: 15px; color: var(--slate-500); font-size: 11.5px; }
+
+/* ---------- BOTTOM CARDS ---------- */
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+}
+
+.info-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--teal-100);
+    color: var(--teal-600);
+    font-weight: 800;
+    font-size: 17px;
+    font-family: 'Fraunces', serif;
+}
+
+.info-card strong { color: var(--navy-700); font-size: 13.5px; font-family: 'Fraunces', serif; font-weight: 600; }
+.info-card p { margin: 4px 0 0; color: var(--slate-500); font-size: 11.5px; }
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 1100px) {
+    .dashboard-layout { grid-template-columns: 200px 1fr; }
+    .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+    .main-nav { display: none; }
+}
+
+@media (max-width: 800px) {
+    .dashboard-layout { display: block; }
+    .sidebar { min-height: auto; margin-bottom: 18px; }
+    .sidebar-bottom { display: none; }
+}
+
+@media (max-width: 600px) {
+    body { padding: 12px; }
+    .top-nav { padding: 12px 16px; }
+    .user-info { display: none; }
+    .notification-btn { font-size: 0; width: 40px; height: 40px; padding: 0; }
+    .dashboard-heading { display: block; }
+    .today-card { margin-top: 12px; text-align: left; }
+    .dashboard-stats { grid-template-columns: 1fr; }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .dashboard-heading h1 { font-size: 26px; }
+}
+</style>
+</head>
+
+
+<body>
+
+<nav class="top-nav">
+
+    <div class="brand">
+        <div class="brand-mark">PT</div>
+
+        <div class="brand-text">
+            <strong>Pocket Tour</strong>
+            <span>Travel Together</span>
+        </div>
+    </div>
+
+
+    <div class="main-nav">
+
+        <a href="HOME1.html" class="active">
+            Home
+        </a>
+
+        <a href="destination.html">
+            Destinations
+        </a>
+
+        <a href="explore.html">
+            Explore
+        </a>
+
+        <a href="Contact.html">
+            Contact
+        </a>
+
+    </div>
+
+
+    <div class="nav-user">
+
+        <button class="notification-btn" type="button">
+            Notifications
+            <span class="notification-dot"></span>
+        </button>
+
+
+        <div class="user-mini">
+
+            <div class="user-avatar">
+                K
+            </div>
+
+            <div class="user-info">
+
+                <strong id="navUserName">
+                    Karim Hasan
+                </strong>
+
+                <span>
+                    Guide 
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-title">
+            GUIDE CENTER
+        </div>
+
+        <a href="#" class="sidebar-link active">
+            Dashboard
+        </a>
+
+        <a href="#bookings" class="sidebar-link">
+            My Bookings
+        </a>
+
+        <a href="#upcoming" class="sidebar-link">
+            Upcoming Trips
+        </a>
+
+        <a href="#profile" class="sidebar-link">
+            My Profile
+        </a>
+
+        <a href="#" class="sidebar-link">
+            Messages
+            <span class="sidebar-badge">3</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            Settings
+        </a>
+
+        <button
+            type="button"
+            class="sidebar-link logout-link"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+        <div class="sidebar-bottom">
+
+            <div class="drive-card">
+                <strong>Drive Safe</strong>
+                <span>Explore Bangladesh</span>
+                <small>Travel Together</small>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN DASHBOARD -->
+    <main class="dashboard-main">
+
+        <!-- WELCOME -->
+        <section class="dashboard-heading">
+
+            <div>
+
+                <p class="dashboard-eyebrow">
+                    GUIDE CENTER
+                </p>
+
+                <h1>
+                    Good evening,
+                    <span id="dashboardUserName">
+                        Karim
+                    </span>
+                </h1>
+
+                <p>
+                    Ready for your next journey?
+                    Here is your latest activity.
+                </p>
+
+            </div>
+
+            <div class="today-card">
+
+                <span>Today</span>
+
+                <strong id="dashboardDate">
+                    Today
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- STAT CARDS -->
+        <section
+            class="dashboard-stats"
+            id="stats"
+        >
+
+            <div class="dashboard-stat stat-blue">
+
+                <div class="stat-icon">
+                    B
+                </div>
+
+                <div>
+
+                    <span>Total Bookings</span>
+
+                    <strong id="totalBookings">
+                        0
+                    </strong>
+
+                    <small>
+                        Assigned bookings
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-stat stat-orange">
+
+                <div class="stat-icon">
+                    P
+                </div>
+
+                <div>
+
+                    <span>Pending</span>
+
+                    <strong id="pendingCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Awaiting response
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-stat stat-green">
+
+                <div class="stat-icon">
+                    A
+                </div>
+
+                <div>
+
+                    <span>Accepted</span>
+
+                    <strong id="acceptedCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Confirmed trips
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-stat stat-red">
+
+                <div class="stat-icon">
+                    R
+                </div>
+
+                <div>
+
+                    <span>Rejected</span>
+
+                    <strong id="rejectedCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Declined bookings
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MIDDLE SECTION -->
+        <section class="dashboard-grid">
+
+
+            <!-- UPCOMING TRIP -->
+            <div
+                class="panel upcoming-panel"
+                id="upcoming"
+            >
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span class="panel-label">
+                            NEXT JOURNEY
+                        </span>
+
+                        <h2>
+                            Upcoming Trip
+                        </h2>
+
+                    </div>
+
+                    <span class="trip-badge">
+                        Guide 
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="upcomingTrip"
+                    class="upcoming-content"
+                >
+
+                    <div class="upcoming-placeholder">
+
+                        <strong>
+                            Your upcoming trip
+                        </strong>
+
+                        <span>
+                            Your next accepted booking
+                            will appear here.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE -->
+            <div
+                class="panel profile-panel"
+                id="profile"
+            >
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span class="panel-label">
+                            ACCOUNT
+                        </span>
+
+                        <h2>
+                            Guide Profile
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-content">
+
+                    <div class="profile-avatar">
+                        K
+                    </div>
+
+                    <div class="profile-info">
+
+                        <strong id="profileName">
+                            Karim Hasan
+                        </strong>
+
+                        <span>
+                            Guide 
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-details">
+
+                    <div>
+                        <span>Email</span>
+
+                        <strong id="profileEmail">
+                            -
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>Phone</span>
+
+                        <strong id="profilePhone">
+                            -
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>Provider ID</span>
+
+                        <strong id="profileProvider">
+                            2
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOOKINGS -->
+        <section
+            class="panel bookings-panel"
+            id="bookings"
+        >
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span class="panel-label">
+                        TRAVEL MANAGEMENT
+                    </span>
+
+                    <h2>
+                        My Bookings
+                    </h2>
+
+                    <p>
+                        View and manage your assigned bookings.
+                    </p>
+
+                </div>
+
+                <select
+                    id="bookingFilter"
+                    class="booking-filter"
+                >
+
+                    <option value="all">
+                        All Bookings
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                    <option value="accepted">
+                        Accepted
+                    </option>
+
+                    <option value="rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table id="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Customer</th>
+
+                            <th>Destination</th>
+
+                            <th>Travel Date</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tbody">
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="no-data"
+                            >
+                                Loading bookings...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="booking-footer">
+
+                <span id="bookingSummary">
+                    Loading bookings...
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOTTOM CARDS -->
+        <section class="bottom-grid">
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    +
+                </div>
+
+                <div>
+
+                    <strong>
+                       GUIDE SAFE
+                    </strong>
+
+                    <p>
+                        Help travelers explore
+                        Bangladesh comfortably.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    ★
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your Rating
+                    </strong>
+
+                    <p>
+                        4.8 / 5 based on traveler feedback.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+
+const user =
+    JSON.parse(
+        localStorage.getItem("user") || "null"
+    );
+
+
+/* =========================================================
+   USER / ROLE
+========================================================= */
+
+const userRole =
+    String(user?.role || "")
+        .trim()
+        .toLowerCase();
+
+
+if (!user || userRole !== "guide") {
+
+    alert("Access denied");
+
+    window.location.href =
+        "login06.html";
+
+    throw new Error(
+        "Guide access denied"
+    );
+}
+
+
+let bookingsData = [];
+
+
+/* =========================================================
+   USER PROFILE
+========================================================= */
+
+const firstName =
+    String(user.name || "Guide")
+        .trim()
+        .split(/\s+/)[0];
+
+
+const dashboardUserName =
+    document.getElementById(
+        "dashboardUserName"
+    );
+
+
+const profileName =
+    document.getElementById(
+        "profileName"
+    );
+
+
+const profileEmail =
+    document.getElementById(
+        "profileEmail"
+    );
+
+
+const profilePhone =
+    document.getElementById(
+        "profilePhone"
+    );
+
+
+const navUserName =
+    document.getElementById(
+        "navUserName"
+    );
+
+
+const navAvatar =
+    document.getElementById(
+        "navAvatar"
+    );
+
+
+const profileAvatar =
+    document.getElementById(
+        "profileAvatar"
+    );
+
+
+if (dashboardUserName) {
+
+    dashboardUserName.textContent =
+        firstName;
+
+}
+
+
+if (profileName) {
+
+    profileName.textContent =
+        user.name || "Guide";
+
+}
+
+
+if (profileEmail) {
+
+    profileEmail.textContent =
+        user.email || "-";
+
+}
+
+
+if (profilePhone) {
+
+    profilePhone.textContent =
+        user.phone || "-";
+
+}
+
+
+if (navUserName) {
+
+    navUserName.textContent =
+        user.name || "Guide";
+
+}
+
+
+/* Generate initials */
+
+function getInitials(name) {
+
+    return String(name || "Guide")
+        .trim()
+        .split(/\s+/)
+        .map(part => part[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+
+}
+
+
+const initials =
+    getInitials(user.name);
+
+
+if (navAvatar) {
+
+    navAvatar.textContent =
+        initials;
+
+}
+
+
+if (profileAvatar) {
+
+    profileAvatar.textContent =
+        initials;
+
+}
+
+
+console.log(
+    "Guide user:",
+    user
+);
+
+console.log(
+    "Guide role:",
+    userRole
+);
+
+
+/* =========================================================
+   LOAD GUIDE BOOKINGS
+========================================================= */
+
+async function load() {
+
+    const tbody =
+        document.getElementById(
+            "tbody"
+        );
+
+
+    tbody.innerHTML = `
+        <tr>
+            <td
+                colspan="5"
+                class="no-data"
+            >
+                Loading bookings...
+            </td>
+        </tr>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `../api/guide_bookings.php?email=${encodeURIComponent(user.email)}`
+            );
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Guide bookings response:",
+            result
+        );
+
+
+        if (!result.success) {
+
+            throw new Error(
+                result.msg ||
+                "Failed to load guide bookings."
+            );
+
+        }
+
+
+        bookingsData =
+            Array.isArray(result.bookings)
+                ? result.bookings
+                : [];
+
+
+        /* Provider ID */
+
+        const profileProvider =
+            document.getElementById(
+                "profileProvider"
+            );
+
+
+        if (
+            profileProvider &&
+            result.provider_id
+        ) {
+
+            profileProvider.textContent =
+                result.provider_id;
+
+        }
+
+
+        /* Update dashboard */
+
+        updateStats(
+            bookingsData
+        );
+
+
+        updateUpcomingTrip(
+            bookingsData
+        );
+
+
+        renderBookings(
+            bookingsData
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading Guide bookings:",
+            error
+        );
+
+
+        tbody.innerHTML = `
+            <tr>
+                <td
+                    colspan="5"
+                    class="no-data"
+                >
+                    Error loading bookings.
+                    Check guide_bookings.php
+                </td>
+            </tr>
+        `;
+
+
+        const summary =
+            document.getElementById(
+                "bookingSummary"
+            );
+
+
+        if (summary) {
+
+            summary.textContent =
+                "Unable to load bookings";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER BOOKINGS
+========================================================= */
+
+function renderBookings(
+    data
+) {
+
+    const tbody =
+        document.getElementById(
+            "tbody"
+        );
+
+
+    const summary =
+        document.getElementById(
+            "bookingSummary"
+        );
+
+
+    if (!data.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td
+                    colspan="5"
+                    class="no-data"
+                >
+                    No bookings found
+                </td>
+            </tr>
+        `;
+
+
+        if (summary) {
+
+            summary.textContent =
+                "0 bookings";
+
+        }
+
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        data.map(
+            booking => {
+
+                const status =
+                    String(
+                        booking.guideStatus ||
+                        "pending"
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${escapeHtml(
+                                booking.name
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                booking.place
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${formatDate(
+                                booking.date
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="status ${status}"
+                            >
+                                ${escapeHtml(
+                                    status
+                                )}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                status === "pending"
+                                ?
+
+                                `
+
+                                <button
+                                    class="action-btn accept"
+                                    onclick="updateGuide(${Number(booking.booking_id)}, 'accepted')"
+                                >
+                                    Accept
+                                </button>
+
+
+                                <button
+                                    class="action-btn reject"
+                                    onclick="updateGuide(${Number(booking.booking_id)}, 'rejected')"
+                                >
+                                    Reject
+                                </button>
+
+                                `
+
+                                :
+
+                                "—"
+                            }
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    if (summary) {
+
+        summary.textContent =
+            `${data.length} booking${
+                data.length === 1
+                    ? ""
+                    : "s"
+            }`;
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE STATS
+========================================================= */
+
+function updateStats(
+    data
+) {
+
+    const total =
+        data.length;
+
+
+    const pending =
+        data.filter(
+            booking =>
+                String(
+                    booking.guideStatus
+                )
+                .toLowerCase() ===
+                "pending"
+        ).length;
+
+
+    const accepted =
+        data.filter(
+            booking =>
+                String(
+                    booking.guideStatus
+                )
+                .toLowerCase() ===
+                "accepted"
+        ).length;
+
+
+    const rejected =
+        data.filter(
+            booking =>
+                String(
+                    booking.guideStatus
+                )
+                .toLowerCase() ===
+                "rejected"
+        ).length;
+
+
+    document.getElementById(
+        "totalBookings"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "pendingCount"
+    ).textContent =
+        pending;
+
+
+    document.getElementById(
+        "acceptedCount"
+    ).textContent =
+        accepted;
+
+
+    document.getElementById(
+        "rejectedCount"
+    ).textContent =
+        rejected;
+
+}
+
+
+/* =========================================================
+   UPCOMING TRIP
+========================================================= */
+
+function updateUpcomingTrip(
+    data
+) {
+
+    const box =
+        document.getElementById(
+            "upcomingTrip"
+        );
+
+
+    if (!box) return;
+
+
+    const accepted =
+        data
+            .filter(
+                booking =>
+                    String(
+                        booking.guideStatus
+                    )
+                    .toLowerCase() ===
+                    "accepted"
+            )
+            .sort(
+                (a, b) =>
+                    new Date(a.date) -
+                    new Date(b.date)
+            );
+
+
+    if (!accepted.length) {
+
+        box.innerHTML = `
+
+            <div
+                class="upcoming-placeholder"
+            >
+
+                <strong>
+                    Your upcoming trip
+                </strong>
+
+                <span>
+                    Your next accepted booking
+                    will appear here.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const trip =
+        accepted[0];
+
+
+    box.innerHTML = `
+
+        <div class="trip-details">
+
+            <div class="trip-detail">
+
+                <span>
+                    Customer
+                </span>
+
+                <strong>
+                    ${escapeHtml(
+                        trip.name
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="trip-detail">
+
+                <span>
+                    Destination
+                </span>
+
+                <strong>
+                    ${escapeHtml(
+                        trip.place
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="trip-detail">
+
+                <span>
+                    Travel Date
+                </span>
+
+                <strong>
+                    ${formatDate(
+                        trip.date
+                    )}
+                </strong>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   UPDATE GUIDE STATUS
+========================================================= */
+
+async function updateGuide(
+    bookingId,
+    status
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                "../api/update_guide_status.php",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            booking_id:
+                                Number(
+                                    bookingId
+                                ),
+
+                            guide_email:
+                                user.email,
+
+                            status:
+                                status
+
+                        })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Update Guide response:",
+            result
+        );
+
+
+        if (!result.success) {
+
+            alert(
+                result.msg ||
+                "Failed to update booking."
+            );
+
+            return;
+        }
+
+
+        await load();
+
+    } catch (error) {
+
+        console.error(
+            "Guide status update error:",
+            error
+        );
+
+
+        alert(
+            "Unable to update booking status."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   BOOKING FILTER
+========================================================= */
+
+const bookingFilter =
+    document.getElementById(
+        "bookingFilter"
+    );
+
+
+if (bookingFilter) {
+
+    bookingFilter.addEventListener(
+        "change",
+        function () {
+
+            const filter =
+                this.value;
+
+
+            if (filter === "all") {
+
+                renderBookings(
+                    bookingsData
+                );
+
+                return;
+            }
+
+
+            const filtered =
+                bookingsData.filter(
+                    booking =>
+                        String(
+                            booking.guideStatus
+                        )
+                        .toLowerCase() ===
+                        filter
+                );
+
+
+            renderBookings(
+                filtered
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+const dashboardDate =
+    document.getElementById(
+        "dashboardDate"
+    );
+
+
+if (dashboardDate) {
+
+    dashboardDate.textContent =
+        new Date().toLocaleDateString(
+            "en-US",
+            {
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+            }
+        );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "login06.html";
+
+}
+
+
+/* =========================================================
+   FORMAT DATE
+========================================================= */
+
+function formatDate(
+    value
+) {
+
+    if (!value) {
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return value;
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+load();
+
+</script>
+
+</body>
+</html>
